@@ -1,0 +1,117 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import MobileMapBar from "../components/MobileMapBar.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  language?: string;
+  ogLocale?: string;
+  alternateLanguages?: Array<{
+    lang: string;
+    href: string;
+  }>;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  showMobileMapBar?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.pathname,
+  image = site.defaultOgImage,
+  imageAlt = description,
+  language = "zh-Hant-TW",
+  ogLocale = "zh_TW",
+  alternateLanguages = [],
+  ogType = "website",
+  noindex = false,
+  showMobileMapBar = true,
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  alternateName: "Wanggaoliao Night View Guide",
+  url: site.url,
+  inLanguage: language,
+};
+---
+
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#081426" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {
+      alternateLanguages.map(({ lang, href }) => (
+        <link rel="alternate" hreflang={lang} href={new URL(href, Astro.site)} />
+      ))
+    }
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HXM22WWPKP");
+    </script>
+
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <slot name="head" />
+  </head>
+
+  <body class="bg-paper text-ink">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2"
+    >
+      跳至主要內容
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    {showMobileMapBar && <MobileMapBar />}
+  </body>
+</html>

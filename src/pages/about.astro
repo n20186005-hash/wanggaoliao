@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { photoCredits } from "../data/credits";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title="關於本站｜望高寮夜景公園旅遊指南"
+  description="Wanggaoliao.com 是專注於望高寮的旅遊指南網站，提供導航、停車、觀景位置、拍照與周邊行程的實用資訊。"
+  canonical="/about/"
+  showMobileMapBar={false}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10">
+    <Breadcrumbs crumbs={[{ label: "首頁", href: "/" }, { label: "關於本站" }]} />
+
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">關於本站</h1>
+
+    <div class="prose prose-slate mt-6 max-w-none prose-headings:text-ink prose-a:text-amber-600">
+      <p>
+        <strong>Wanggaoliao.com（望高寮夜景公園旅遊指南）</strong
+        >的目標很單純：幫助遊客在前往望高寮之前，快速解決導航、停車、觀景位置、拍照與返程問題。
+      </p>
+      <p>
+        我們不重複景點歷史介紹，而是把心力放在「準備出發時真正用得到」的內容——
+        兩個觀景點的差別、停車入口、夜間返程方案、藍調時刻的拍攝時機，以及周邊行程的順路排法。
+      </p>
+
+      <h2>本站定位</h2>
+      <ul>
+        <li>本站提供旅遊規劃資訊，不負責景點的管理與維護。</li>
+        <li>開放狀態、即時路況、訪客評論及導航路線，請以 Google 地圖顯示為準。</li>
+        <li>即時景觀請參考臺中觀光旅遊網提供的望高寮即時影像。</li>
+        <li>內容為本站原創整理，會隨現場情況持續更新。</li>
+      </ul>
+
+      <h2>圖片來源與授權</h2>
+      <p>
+        本站圖片採用可商業使用的創用 CC 授權作品，並依授權條款標示作者與出處。感謝以下攝影者的分享：
+      </p>
+      <ul>
+        {
+          photoCredits.map((credit) => (
+            <li>
+              {credit.subject} — <a href={credit.sourceUrl} target="_blank" rel="noopener noreferrer">{credit.author}</a>，
+              <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>聯絡我們</h2>
+      <p>
+        資訊更正、合作提案或照片授權事宜，歡迎來信：
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

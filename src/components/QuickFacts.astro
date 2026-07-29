@@ -1,0 +1,23 @@
+---
+const facts = [
+  { icon: "🎟️", label: "免費景點" },
+  { icon: "🗺️", label: "Google 地圖導航" },
+  { icon: "🌇", label: "夜景與夕陽" },
+  { icon: "🏞️", label: "設有觀景空間" },
+  { icon: "🚗", label: "適合自駕" },
+  { icon: "📹", label: "可查看即時影像" },
+];
+---
+
+<ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+  {
+    facts.map((fact) => (
+      <li class="flex flex-col items-center gap-1 rounded-2xl border border-line bg-white px-3 py-4 text-center">
+        <span aria-hidden="true" class="text-2xl">
+          {fact.icon}
+        </span>
+        <span class="text-sm font-semibold text-ink">{fact.label}</span>
+      </li>
+    ))
+  }
+</ul>

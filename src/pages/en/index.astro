@@ -1,0 +1,118 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { place } from "../../data/place";
+import heroImage from "../../assets/hero/night-skyline.jpg";
+---
+
+<BaseLayout
+  title="Wanggaoliao Night View Park — Visitor Guide | Taichung, Taiwan"
+  description="English guide to Wanggaoliao Night View Park in Taichung: how to get there, parking, best time for sunset and night views, and nearby attractions."
+  canonical="/en/"
+  language="en"
+  ogLocale="en_US"
+  imageAlt="Taichung night skyline viewed from Wanggaoliao"
+  alternateLanguages={[
+    { lang: "en", href: "/en/" },
+    { lang: "zh-Hant-TW", href: "/" },
+    { lang: "x-default", href: "/" },
+  ]}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
+    <h1 class="text-3xl font-bold text-ink md:text-4xl">
+      Wanggaoliao Night View Park
+    </h1>
+    <p class="mt-3 text-lg leading-relaxed text-ink-soft">
+      A free hilltop park on the Dadu Plateau in Taichung, Taiwan, famous for its
+      panoramic night view of the city lights, and sunsets over the coastline.
+    </p>
+
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <a
+        href={place.directionsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night"
+      >
+        Navigate with Google Maps
+      </a>
+      <a
+        href={place.googleMapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-xl border border-line bg-white px-5 py-3 text-center font-semibold text-ink"
+      >
+        View on Google Maps
+      </a>
+    </div>
+
+    <figure class="mt-8">
+      <Image
+        src={heroImage}
+        alt="Night skyline of Taichung seen from Wanggaoliao"
+        widths={[480, 768, 1200]}
+        sizes="(max-width: 768px) 100vw, 768px"
+        class="w-full rounded-2xl border border-line"
+      />
+      <figcaption class="mt-2 text-xs text-ink-soft">
+        Taichung city lights from Wanggaoliao. Photo: 敖摩 龔, Wikimedia Commons, CC BY-SA 2.0
+      </figcaption>
+    </figure>
+
+    <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink prose-a:text-amber-600">
+      <h2>Quick facts</h2>
+      <ul>
+        <li><strong>Admission:</strong> Free, open 24 hours, no ticket needed.</li>
+        <li><strong>Location:</strong> Zhongtai Road, Nantun District, Taichung City, Taiwan.</li>
+        <li><strong>Best time:</strong> arrive before sunset; the "blue hour" 20–40 minutes after sunset is the highlight.</li>
+        <li><strong>What you see:</strong> Taichung city skyline, Taichung Port, and the Changhua plain.</li>
+      </ul>
+
+      <h2>Two viewpoints, two directions</h2>
+      <p>
+        There are two separate spots on the hill. The <strong>Night View Park</strong>
+        faces the Taichung city skyline — go there after sunset for the sea of city
+        lights. The <strong>Lookout Platform</strong> faces southwest toward the coast —
+        go there <em>before</em> sunset. If you want both, watch the sunset at the
+        platform first, then move to the park for blue hour (they are only a few
+        minutes apart by car).
+      </p>
+
+      <h2>Getting there</h2>
+      <ul>
+        <li>
+          <strong>By car or scooter (recommended):</strong> about 20–30 minutes from
+          central Taichung. Search "Wanggaoliao Night View Park" in Google Maps. Free
+          parking near the entrance; arrive 40–60 minutes before sunset on weekends.
+        </li>
+        <li>
+          <strong>By taxi / ride-hailing:</strong> easy to get a ride up; for the way
+          back at night, agree on a pickup time with your driver or expect a longer
+          wait.
+        </li>
+        <li>
+          <strong>By bus:</strong> possible but limited — buses stop a walk away from
+          the park and evening service is sparse. Check return times before you go.
+        </li>
+      </ul>
+
+      <h2>Good to know</h2>
+      <ul>
+        <li>It is windy on the plateau — bring a jacket even in summer.</li>
+        <li>No restaurants or convenience stores on site; eat before you go up.</li>
+        <li>Paths and steps are dimly lit at night; use your phone light.</li>
+        <li>
+          Nearby: Rainbow Village (10–15 min by car) makes a great afternoon stop
+          before sunset here.
+        </li>
+      </ul>
+
+      <p>
+        For live conditions, traffic, and reviews, check
+        <a href={place.googleMapsUrl} target="_blank" rel="noopener noreferrer">Google Maps</a>.
+        A live 4K webcam is available on the
+        <a href={place.liveCameraUrl} target="_blank" rel="noopener noreferrer">Taichung Tourism website</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

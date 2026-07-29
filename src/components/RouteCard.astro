@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  steps: string[];
+  href: string;
+  linkLabel?: string;
+}
+
+const { title, steps, href, linkLabel = "查看完整路線" } = Astro.props;
+---
+
+<article class="flex h-full flex-col rounded-2xl border border-line bg-white p-6">
+  <h3 class="text-lg font-bold text-ink">{title}</h3>
+  <ol class="mt-4 flex-1 space-y-2">
+    {
+      steps.map((step, index) => (
+        <li class="flex items-start gap-3 text-sm text-ink">
+          <span
+            aria-hidden="true"
+            class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-night text-xs font-bold text-amber-cta"
+          >
+            {index + 1}
+          </span>
+          {step}
+        </li>
+      ))
+    }
+  </ol>
+  <a href={href} class="mt-5 text-sm font-semibold text-amber-600 transition hover:underline">
+    {linkLabel} →
+  </a>
+</article>

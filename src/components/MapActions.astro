@@ -1,0 +1,29 @@
+---
+import { place } from "../data/place";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["flex flex-col gap-3 sm:flex-row", className]}>
+  <a
+    href={place.googleMapsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="rounded-xl border border-line bg-white px-5 py-3 text-center font-semibold text-ink transition hover:border-amber-cta"
+  >
+    在 Google 地圖查看
+  </a>
+
+  <a
+    href={place.directionsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night transition hover:brightness-105"
+  >
+    開始導航
+  </a>
+</div>

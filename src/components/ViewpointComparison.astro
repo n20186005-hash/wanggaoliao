@@ -1,0 +1,95 @@
+---
+import { place } from "../data/place";
+
+const rows = [
+  { label: "導航名稱", park: "望高寮夜景公園", lookout: "望高寮觀景臺／觀景平台" },
+  { label: "主要方向", park: "向東看臺中市區", lookout: "向西南看海線與彰化平原" },
+  { label: "最好看的時段", park: "藍調至完全入夜", lookout: "日落前 30–60 分鐘" },
+  { label: "空間特色", park: "草坡、階梯、步道，可久坐", lookout: "線性觀景平台，適合短停" },
+  { label: "建議停留", park: "45–90 分鐘", lookout: "20–40 分鐘" },
+  { label: "建議順序", park: "日落後第二站", lookout: "日落前第一站" },
+];
+---
+
+<div class="not-prose">
+  <div class="space-y-3 sm:hidden">
+    {
+      rows.map((row) => (
+        <article class="overflow-hidden rounded-2xl border border-line bg-white">
+          <h3 class="border-b border-line bg-paper px-4 py-3 text-sm font-bold text-ink">
+            {row.label}
+          </h3>
+          <dl class="grid grid-cols-2 divide-x divide-line">
+            <div class="p-4">
+              <dt class="text-xs font-semibold text-ink-soft">夜景公園</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-ink">{row.park}</dd>
+            </div>
+            <div class="p-4">
+              <dt class="text-xs font-semibold text-ink-soft">觀景平台</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-ink">{row.lookout}</dd>
+            </div>
+          </dl>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="hidden overflow-hidden rounded-2xl border border-line bg-white sm:block">
+    <table class="w-full text-left text-sm">
+      <caption class="sr-only">望高寮夜景公園與觀景平台比較表</caption>
+      <thead>
+        <tr class="border-b border-line bg-paper text-ink">
+          <th scope="col" class="px-5 py-4 font-bold">項目</th>
+          <th scope="col" class="px-5 py-4 font-bold">望高寮夜景公園</th>
+          <th scope="col" class="px-5 py-4 font-bold">望高寮觀景平台</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr class="border-b border-line last:border-b-0">
+              <th scope="row" class="px-5 py-4 font-semibold text-ink-soft">
+                {row.label}
+              </th>
+              <td class="px-5 py-4 text-ink">{row.park}</td>
+              <td class="px-5 py-4 text-ink">{row.lookout}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4 grid gap-3 rounded-2xl bg-night p-5 text-white sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+    <div>
+      <p class="text-xs font-semibold text-slate-400">第一站</p>
+      <p class="mt-1 font-bold">觀景平台看夕陽</p>
+    </div>
+    <div class="rounded-full bg-white/10 px-4 py-2 text-center text-xs font-semibold text-amber-cta">
+      約 400 公尺<br class="hidden sm:block" />步行約 5–10 分鐘
+    </div>
+    <div class="sm:text-right">
+      <p class="text-xs font-semibold text-slate-400">第二站</p>
+      <p class="mt-1 font-bold">夜景公園看燈海</p>
+    </div>
+  </div>
+
+  <div class="mt-4 grid gap-3 sm:grid-cols-2">
+    <a
+      href={place.lookoutMapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-xl border border-line bg-white px-5 py-3 text-center text-sm font-bold text-ink transition hover:border-amber-cta"
+    >
+      導航至觀景平台
+    </a>
+    <a
+      href={place.googleMapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-xl bg-amber-cta px-5 py-3 text-center text-sm font-bold text-night transition hover:brightness-105"
+    >
+      導航至夜景公園
+    </a>
+  </div>
+</div>

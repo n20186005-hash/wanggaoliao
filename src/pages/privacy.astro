@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title="隱私權政策｜望高寮夜景公園旅遊指南"
+  description="Wanggaoliao.com 的隱私權政策：本站不要求註冊登入、不蒐集個人資料，僅使用基本流量統計以改善內容。"
+  canonical="/privacy/"
+  showMobileMapBar={false}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10">
+    <Breadcrumbs crumbs={[{ label: "首頁", href: "/" }, { label: "隱私權政策" }]} />
+
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">隱私權政策</h1>
+
+    <div class="prose prose-slate mt-6 max-w-none prose-headings:text-ink prose-a:text-amber-600">
+      <p>
+        Wanggaoliao.com（以下稱「本站」）重視您的隱私。本頁說明本站如何處理與您相關的資訊。
+      </p>
+
+      <h2>我們不蒐集的資料</h2>
+      <ul>
+        <li>本站為純靜態網站，<strong>不提供會員註冊或登入</strong>。</li>
+        <li>本站<strong>不主動蒐集姓名、電話、地址等個人資料</strong>。</li>
+        <li>本站沒有留言板、表單或任何需要輸入個人資料的功能。</li>
+      </ul>
+
+      <h2>流量統計</h2>
+      <p>
+        本站可能使用 Cloudflare 提供的匿名流量統計與 Google Search Console
+        了解網站使用情況，這些工具提供的是彙整後的匿名數據，無法識別個別使用者身分。
+      </p>
+
+      <h2>外部連結與嵌入服務</h2>
+      <ul>
+        <li>
+          本站包含前往 <strong>Google 地圖</strong>的連結與嵌入地圖。顯示地圖的頁面會載入
+          Google 服務，適用
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"
+            >Google 隱私權政策</a
+          >。
+        </li>
+        <li>
+          即時影像頁面使用 <strong>YouTube</strong> 嵌入播放器。開啟該頁面時會載入 YouTube
+          內容，其資料處理同樣適用 Google 隱私權政策。
+        </li>
+      </ul>
+
+      <h2>Cookie</h2>
+      <p>
+        第三方服務（如 Google 地圖與 YouTube）可能依其政策設置 Cookie。
+      </p>
+
+      <h2>政策更新</h2>
+      <p>本政策如有修改，將直接更新於本頁。</p>
+
+      <h2>聯絡方式</h2>
+      <p>
+        對本政策有任何疑問，請來信：<a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

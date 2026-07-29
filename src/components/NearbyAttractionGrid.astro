@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import rainbowVillage from "../assets/nearby/rainbow-village.jpg";
+import zhuifenStation from "../assets/nearby/zhuifen-station.jpg";
+import zhigaoTrail from "../assets/nearby/zhigao-trail.jpg";
+import jukuiju from "../assets/nearby/jukuiju.jpg";
+
+interface NearbySpot {
+  name: string;
+  driveTime: string;
+  stayTime: string;
+  bestFor: string;
+  description: string;
+  mapQuery: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const spots: NearbySpot[] = [
+  {
+    name: "彩虹眷村",
+    driveTime: "約 10–15 分鐘",
+    stayTime: "30–60 分鐘",
+    bestFor: "拍照、親子、第一次到訪",
+    description: "白天看彩繪牆面與地面最清楚，逛完再往望高寮移動，是最省力的夕陽前行程。",
+    mapQuery: "彩虹眷村 台中",
+    image: rainbowVillage,
+    imageAlt: "彩虹眷村的彩繪牆面與圖案",
+  },
+  {
+    name: "知高圳步道",
+    driveTime: "約 10–15 分鐘",
+    stayTime: "60–90 分鐘",
+    bestFor: "散步、親子、自然景觀",
+    description: "沿水圳行走的親子級路線，主線約 1.5 公里；若再接雪蓮步道與學田山，需另留體力。",
+    mapQuery: "知高圳步道",
+    image: zhigaoTrail,
+    imageAlt: "知高圳步道沿水圳而行的綠蔭路段",
+  },
+  {
+    name: "追分車站",
+    driveTime: "約 15–20 分鐘",
+    stayTime: "30–45 分鐘",
+    bestFor: "鐵道、老建築、紀念車票",
+    description: "1922 年啟用的木造車站，也是「追分—成功」紀念車票的起點，適合短停拍照。",
+    mapQuery: "追分車站",
+    image: zhuifenStation,
+    imageAlt: "追分車站保存完整的木造站房",
+  },
+  {
+    name: "聚奎居",
+    driveTime: "約 15–20 分鐘",
+    stayTime: "45–75 分鐘",
+    bestFor: "古蹟、建築、文化旅行",
+    description: "約建於 1930–1940 年，融合巴洛克與三合院元素；目前採預約制，先確認場次再排入行程。",
+    mapQuery: "聚奎居",
+    image: jukuiju,
+    imageAlt: "聚奎居紅磚拱廊與巴洛克式立面",
+  },
+  {
+    name: "筏子溪門戶迎賓水岸廊道",
+    driveTime: "約 10–15 分鐘",
+    stayTime: "30–60 分鐘",
+    bestFor: "輕鬆散步、地標合照",
+    description: "沿筏子溪左岸設置步道與 TAICHUNG 地標，適合不想爬坡、只想在上山前簡單走走的人。",
+    mapQuery: "筏子溪門戶迎賓水岸廊道",
+  },
+  {
+    name: "大肚藍色公路",
+    driveTime: "依進入路段而定",
+    stayTime: "彈性安排",
+    bestFor: "自駕、夜景延伸路線",
+    description: "它是一段山腰道路而非單一景點，適合自駕或騎車下山後順行；彎道請減速，不要臨停拍照。",
+    mapQuery: "大肚藍色公路",
+  },
+];
+
+const mapUrl = (query: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+---
+
+<div class="not-prose my-8 grid gap-4 sm:grid-cols-2">
+  {
+    spots.map((spot) => (
+      <article
+        class:list={[
+          "overflow-hidden rounded-2xl border border-line shadow-sm",
+          spot.image ? "bg-white text-ink" : "bg-night text-white",
+        ]}
+      >
+        {spot.image ? (
+          <Image
+            src={spot.image}
+            alt={spot.imageAlt ?? spot.name}
+            widths={[480, 720]}
+            sizes="(max-width: 640px) 100vw, 384px"
+            class="h-44 w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div class="h-2 bg-amber-cta" aria-hidden="true" />
+        )}
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-3">
+            <h2 class="text-lg font-bold">{spot.name}</h2>
+            <span
+              class:list={[
+                "shrink-0 rounded-full px-3 py-1 text-xs font-semibold",
+                spot.image ? "bg-paper text-ink-soft" : "bg-white/10 text-amber-cta",
+              ]}
+            >
+              {spot.driveTime}
+            </span>
+          </div>
+          <p class:list={["mt-3 text-sm leading-relaxed", spot.image ? "text-ink-soft" : "text-slate-300"]}>
+            {spot.description}
+          </p>
+          <dl
+            class:list={[
+              "mt-4 grid grid-cols-2 gap-3 border-t pt-4 text-xs",
+              spot.image ? "border-line" : "border-slate-700",
+            ]}
+          >
+            <div>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>建議停留</dt>
+              <dd class="mt-1 font-semibold">{spot.stayTime}</dd>
+            </div>
+            <div>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>適合</dt>
+              <dd class="mt-1 font-semibold">{spot.bestFor}</dd>
+            </div>
+          </dl>
+          <a
+            href={mapUrl(spot.mapQuery)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
+          >
+            在 Google 地圖查看 →
+          </a>
+        </div>
+      </article>
+    ))
+  }
+</div>

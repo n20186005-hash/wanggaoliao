@@ -1,0 +1,62 @@
+---
+import { place } from "../data/place";
+
+const steps = [
+  {
+    label: "導航",
+    title: "認明夜景公園",
+    text: "目的地選「望高寮夜景公園」，不要只輸入望高寮，以免被帶到觀景平台或其他同名位置。",
+  },
+  {
+    label: "減速",
+    title: "接近中台路入口",
+    text: "進入中台路後提早減速，留意公園入口、停車標線與進出車流，不跟著前車在彎道臨停。",
+  },
+  {
+    label: "停放",
+    title: "只停標示區域",
+    text: "汽車與機車依現場標線分區停放，保留出入口、轉彎空間與行人動線。",
+  },
+  {
+    label: "步行",
+    title: "由主入口進園",
+    text: "停妥後從主入口與主要步道進入；夜間先開照明看清路面，不穿越草坡抄近路。",
+  },
+];
+---
+
+<div class="not-prose my-8">
+  <div class="grid gap-3 sm:grid-cols-4">
+    {
+      steps.map((step, index) => (
+        <article class="relative rounded-2xl border border-line bg-white p-5">
+          <div class="flex items-center justify-between gap-3">
+            <span class="rounded-full bg-night px-3 py-1 text-xs font-bold text-amber-cta">
+              {step.label}
+            </span>
+            <span class="text-sm font-black text-slate-300">{String(index + 1).padStart(2, "0")}</span>
+          </div>
+          <h3 class="mt-4 text-base font-bold text-ink">{step.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{step.text}</p>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="mt-4 flex flex-col gap-3 rounded-2xl bg-night p-5 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="font-bold text-white">車位滿了，就離開彎道與入口</p>
+      <p class="mt-1 text-sm text-slate-300">
+        不把路肩、彎道或出入口當成候位區；改在離峰時段再訪，比冒險臨停更安全。
+      </p>
+    </div>
+    <a
+      href={place.directionsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="shrink-0 rounded-xl bg-amber-cta px-5 py-3 text-center text-sm font-bold text-night"
+    >
+      導航至夜景公園
+    </a>
+  </div>
+</div>

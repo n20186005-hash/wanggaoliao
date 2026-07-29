@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import RouteCard from "../../components/RouteCard.astro";
+---
+
+<BaseLayout
+  title="望高寮行程安排｜約會、半日遊與攝影路線"
+  description="三條把望高寮排進台中行程的路線：情侶約會夜遊、彩虹眷村半日遊、攝影半日路線，含時間軸與交通銜接。"
+  canonical="/itineraries/"
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 pb-28 md:pb-16">
+    <Breadcrumbs crumbs={[{ label: "首頁", href: "/" }, { label: "行程安排" }]} />
+
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">望高寮行程安排</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
+      望高寮最好的玩法是「排進行程裡」而不是單點來回。挑一條適合你的路線，從晚餐、夕陽到燈海一路順路。
+    </p>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      <RouteCard
+        title="情侶夜遊"
+        steps={["市區晚餐", "望高寮夜景", "台中宵夜或甜點"]}
+        href="/itineraries/date-night/"
+      />
+      <RouteCard
+        title="經典半日遊"
+        steps={["彩虹村", "周邊晚餐", "望高寮夕陽", "夜景公園"]}
+        href="/itineraries/half-day/"
+      />
+      <RouteCard
+        title="攝影路線"
+        steps={[
+          "日落前抵達觀景平台",
+          "拍攝夕陽",
+          "移動至夜景公園",
+          "拍攝藍調與城市燈海",
+        ]}
+        href="/itineraries/photography/"
+      />
+    </div>
+  </div>
+</BaseLayout>

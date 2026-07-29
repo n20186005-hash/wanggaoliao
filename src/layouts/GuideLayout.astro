@@ -1,0 +1,159 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import MapActions from "../components/MapActions.astro";
+import { site } from "../data/site";
+
+interface RelatedLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  seoTitle: string;
+  description: string;
+  canonical: string;
+  category: string;
+  heroImage?: ImageMetadata;
+  heroAlt?: string;
+  heroCredit?: string;
+  noindex?: boolean;
+  related?: RelatedLink[];
+}
+
+const {
+  title,
+  seoTitle,
+  description,
+  canonical,
+  category,
+  heroImage,
+  heroAlt,
+  heroCredit,
+  noindex = false,
+  related = [],
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical, Astro.site).href;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  inLanguage: "zh-Hant-TW",
+  mainEntityOfPage: canonicalUrl,
+  author: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  about: {
+    "@type": "TouristAttraction",
+    name: "望高寮夜景公園",
+    url: site.url,
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "首頁",
+      item: site.url + "/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: title,
+      item: canonicalUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  canonical={canonical}
+  ogType="article"
+  noindex={noindex}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <article class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16">
+    <Breadcrumbs crumbs={[{ label: "首頁", href: "/" }, { label: title }]} />
+
+    <header class="mt-6">
+      <p class="text-sm font-semibold text-amber-600">{category}</p>
+      <h1 class="mt-2 text-3xl font-bold leading-snug text-ink md:text-4xl">{title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-ink-soft">{description}</p>
+    </header>
+
+    <MapActions class="mt-6" />
+
+    {
+      heroImage && (
+        <figure class="mt-8">
+          <Image
+            src={heroImage}
+            alt={heroAlt ?? title}
+            widths={[480, 768, 1200]}
+            sizes="(max-width: 768px) 100vw, 768px"
+            class="w-full rounded-2xl border border-line"
+            loading="eager"
+            fetchpriority="high"
+          />
+          {heroCredit && (
+            <figcaption class="mt-2 text-xs text-ink-soft">{heroCredit}</figcaption>
+          )}
+        </figure>
+      )
+    }
+
+    <div
+      class="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-headings:text-ink prose-a:text-amber-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl"
+    >
+      <slot />
+    </div>
+
+    {
+      related.length > 0 && (
+        <nav aria-label="相關頁面" class="mt-10 rounded-2xl border border-line bg-white p-6">
+          <h2 class="text-lg font-bold text-ink">相關攻略</h2>
+          <ul class="mt-3 grid gap-2 sm:grid-cols-2">
+            {related.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm font-semibold text-amber-600 transition hover:underline"
+                >
+                  {link.label} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <div class="mt-10 rounded-2xl bg-night p-6 text-center">
+      <p class="font-bold text-white">準備出發了嗎？</p>
+      <MapActions class="mt-4 justify-center" />
+    </div>
+  </article>
+</BaseLayout>

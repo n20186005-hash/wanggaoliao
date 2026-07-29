@@ -1,0 +1,335 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import QuickFacts from "../components/QuickFacts.astro";
+import ViewpointComparison from "../components/ViewpointComparison.astro";
+import LazyGoogleMap from "../components/LazyGoogleMap.astro";
+import RouteCard from "../components/RouteCard.astro";
+import FAQList from "../components/FAQList.astro";
+import { place } from "../data/place";
+import { site } from "../data/site";
+import { faqItems } from "../data/faq";
+
+import heroImage from "../assets/hero/night-skyline.jpg";
+import parkImage from "../assets/park/park-2025.jpg";
+import lookoutImage from "../assets/viewpoints/lookout-southwest.jpg";
+import rainbowImage from "../assets/nearby/rainbow-village.jpg";
+
+const featuredFaq = faqItems.filter((item) => item.featured);
+
+const attractionSchema = {
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  name: "望高寮夜景公園",
+  alternateName: [
+    "Wanggaoliao Night View Park",
+    "Wangaoliao Night View Park",
+    "東海古堡",
+  ],
+  url: "https://wanggaoliao.com/",
+  description: "望高寮夜景公園交通、停車、導航、攝影與周邊行程指南。",
+  isAccessibleForFree: true,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: place.latitude,
+    longitude: place.longitude,
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: place.address.street,
+    addressLocality: place.address.district,
+    addressRegion: place.address.city,
+    addressCountry: place.address.country,
+  },
+  hasMap: place.googleMapsUrl,
+  touristType: ["Couples", "Families", "Photographers"],
+};
+
+const beforeYouGo = [
+  {
+    title: "開車前往",
+    text: "前往停車與山路駕駛指南。",
+    href: "/parking/",
+    icon: "🚗",
+  },
+  {
+    title: "沒有開車",
+    text: "確認公車與夜間返程方案。",
+    href: "/public-transport/",
+    icon: "🚌",
+  },
+  {
+    title: "想看夕陽",
+    text: "先理解觀景平台與夜景公園的差異。",
+    href: "/park-vs-viewpoint/",
+    icon: "🌇",
+  },
+  {
+    title: "想拍夜景",
+    text: "先查看能見度及藍調時間建議。",
+    href: "/photography/",
+    icon: "📷",
+  },
+];
+---
+
+<BaseLayout
+  title="望高寮夜景公園｜停車、導航、即時影像與拍照攻略"
+  description="前往望高寮夜景公園前，先查看Google地圖導航、停車方式、夜景與夕陽觀景位置、即時影像、拍照建議及附近行程。"
+  imageAlt="從望高寮俯瞰臺中城市夜景燈海"
+  alternateLanguages={[
+    { lang: "zh-Hant-TW", href: "/" },
+    { lang: "en", href: "/en/" },
+    { lang: "x-default", href: "/" },
+  ]}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-night text-white">
+    <div class="absolute inset-0">
+      <Image
+        src={heroImage}
+        alt="從望高寮俯瞰台中城市夜景燈海"
+        widths={[640, 1024, 1920]}
+        sizes="100vw"
+        class="h-full w-full object-cover opacity-50"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-4 py-24 md:py-32">
+      <p class="text-sm font-semibold tracking-[0.3em] text-amber-cta">
+        {site.brandEn} · TAICHUNG
+      </p>
+      <h1 class="mt-3 text-4xl font-bold leading-tight md:text-5xl">望高寮夜景公園</h1>
+      <p class="mt-3 text-xl font-semibold text-slate-200 md:text-2xl">
+        台中夜景、停車、導航與拍照攻略
+      </p>
+      <p class="mt-5 max-w-xl leading-relaxed text-slate-300">
+        從大肚台地俯瞰台中城市燈海。出發前先確認觀景位置、停車方式與 Google 地圖導航。
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a
+          href={place.directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-amber-cta px-6 py-3.5 text-center text-lg font-bold text-night transition hover:brightness-105"
+        >
+          開始導航
+        </a>
+        <a
+          href={place.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl border border-slate-400 px-6 py-3.5 text-center font-semibold text-white transition hover:border-amber-cta hover:text-amber-cta"
+        >
+          查看 Google 地圖
+        </a>
+        <a
+          href="/live-camera/"
+          class="rounded-xl border border-slate-400 px-6 py-3.5 text-center font-semibold text-white transition hover:border-amber-cta hover:text-amber-cta"
+        >
+          查看即時影像
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 快速資訊卡 -->
+  <section class="mx-auto max-w-6xl px-4 py-10" aria-label="快速資訊">
+    <QuickFacts />
+  </section>
+
+  <!-- 出發前先看 -->
+  <section class="mx-auto max-w-6xl px-4 py-8">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">出發前先看</h2>
+    <p class="mt-2 text-ink-soft">先確認你的前往方式與目的，避免第一次上山就走錯位置。</p>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        beforeYouGo.map((card) => (
+          <a
+            href={card.href}
+            class="group rounded-2xl border border-line bg-white p-6 transition hover:border-amber-cta hover:shadow-sm"
+          >
+            <span aria-hidden="true" class="text-3xl">
+              {card.icon}
+            </span>
+            <h3 class="mt-3 text-lg font-bold text-ink group-hover:text-amber-600">
+              {card.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">{card.text}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 夜景公園與觀景平台比較 -->
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">夜景公園與觀景平台，是兩個地方</h2>
+    <p class="mt-2 max-w-2xl text-ink-soft">
+      這是第一次前往最常見的混淆：想看夕陽卻到了夜景公園，想看燈海卻停在觀景平台。出發前先分清楚。
+    </p>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+      <figure>
+        <Image
+          src={parkImage}
+          alt="望高寮夜景公園的草坡與觀景空間"
+          widths={[480, 768, 1200]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          class="aspect-[16/10] w-full rounded-2xl border border-line object-cover"
+        />
+        <figcaption class="mt-2 text-sm text-ink-soft">
+          夜景公園：草坡與階梯面向台中市區燈海
+        </figcaption>
+      </figure>
+      <figure>
+        <Image
+          src={lookoutImage}
+          alt="從望高寮觀景平台眺望彰化平原與海線方向"
+          widths={[480, 768, 1200]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          class="aspect-[16/10] w-full rounded-2xl border border-line object-cover"
+        />
+        <figcaption class="mt-2 text-sm text-ink-soft">
+          觀景平台：面向海線與夕陽方向
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="mt-6">
+      <ViewpointComparison />
+    </div>
+
+    <a
+      href="/park-vs-viewpoint/"
+      class="mt-5 inline-block rounded-xl border border-line bg-white px-5 py-3 font-semibold text-ink transition hover:border-amber-cta"
+    >
+      查看兩個觀景點的完整差異
+    </a>
+  </section>
+
+  <!-- Google 地圖 -->
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">位置與導航</h2>
+    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+      <LazyGoogleMap />
+      <div class="rounded-2xl border border-line bg-white p-6">
+        <h3 class="text-lg font-bold text-ink">停車與交通摘要</h3>
+        <ul class="mt-4 space-y-3 text-sm leading-relaxed text-ink">
+          <li>🅿️ 自駕請認明公園入口停車空間，避免在彎道臨停。<a href="/parking/" class="font-semibold text-amber-600 hover:underline">停車攻略</a></li>
+          <li>🌙 山路夜間照明有限，請放慢速度、開啟大燈。</li>
+          <li>🚌 99延、30延、323、355 都停「望高寮」站，回程仍要先確認班次。<a href="/public-transport/" class="font-semibold text-amber-600 hover:underline">公車攻略</a></li>
+          <li>🚕 深夜叫車等待時間可能較長，建議預先安排備案。</li>
+        </ul>
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={place.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night transition hover:brightness-105"
+          >
+            開始導航
+          </a>
+          <a
+            href="/directions/"
+            class="rounded-xl border border-line px-5 py-3 text-center font-semibold text-ink transition hover:border-amber-cta"
+          >
+            怎麼去望高寮
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三條推薦路線 -->
+  <section class="bg-night py-14">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-2xl font-bold text-white md:text-3xl">三條推薦路線</h2>
+      <p class="mt-2 text-slate-300">把望高寮排進你的台中行程，從晚餐到燈海一路順路。</p>
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        <RouteCard
+          title="情侶夜遊"
+          steps={["市區晚餐", "望高寮夜景", "台中宵夜或甜點"]}
+          href="/itineraries/date-night/"
+        />
+        <RouteCard
+          title="經典半日遊"
+          steps={["彩虹村", "周邊晚餐", "望高寮夕陽", "夜景公園"]}
+          href="/itineraries/half-day/"
+        />
+        <RouteCard
+          title="攝影路線"
+          steps={[
+            "日落前抵達觀景平台",
+            "拍攝夕陽",
+            "移動至夜景公園",
+            "拍攝藍調與城市燈海",
+          ]}
+          href="/itineraries/photography/"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 附近景點 -->
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-bold text-ink md:text-3xl">附近景點</h2>
+        <p class="mt-2 text-ink-soft">彩虹眷村、追分車站、知高圳步道都在半小時車程內。</p>
+      </div>
+      <a
+        href="/nearby-attractions/"
+        class="font-semibold text-amber-600 transition hover:underline"
+      >
+        查看全部附近景點 →
+      </a>
+    </div>
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      <a href="/nearby-attractions/" class="group block">
+        <Image
+          src={rainbowImage}
+          alt="彩虹眷村的彩繪牆面"
+          widths={[480, 768, 1200]}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          class="aspect-[3/2] w-full rounded-2xl border border-line object-cover"
+        />
+        <h3 class="mt-3 text-lg font-bold text-ink group-hover:text-amber-600">
+          彩虹眷村＋望高寮半日遊
+        </h3>
+        <p class="mt-1 text-sm text-ink-soft">白天逛彩繪村，傍晚上大肚台地看夕陽與夜景。</p>
+      </a>
+      <div class="rounded-2xl border border-line bg-white p-6">
+        <h3 class="text-lg font-bold text-ink">周邊順遊建議</h3>
+        <ul class="mt-4 space-y-3 text-sm text-ink">
+          <li>🚉 <strong>追分車站</strong>：百年木造車站，「追分成功」車票的起點。</li>
+          <li>🥾 <strong>知高圳步道</strong>：平緩水圳步道，適合傍晚散步再上望高寮。</li>
+          <li>🏛️ <strong>聚奎居</strong>：巴洛克式歷史建築，拍照散策好去處。</li>
+          <li>🍜 看完夜景想吃宵夜？<a href="/nearby-food/" class="font-semibold text-amber-600 hover:underline">附近美食與宵夜</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-4 md:pb-16">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">常見問題</h2>
+    <div class="mt-6">
+      <FAQList items={featuredFaq} />
+    </div>
+    <a
+      href="/faq/"
+      class="mt-5 inline-block font-semibold text-amber-600 transition hover:underline"
+    >
+      查看完整常見問題 →
+    </a>
+  </section>
+</BaseLayout>

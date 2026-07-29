@@ -1,0 +1,24 @@
+---
+import { place } from "../data/place";
+---
+
+<div class="rounded-2xl border border-line bg-white p-5">
+  <h3 class="text-lg font-bold text-ink">望高寮夜景公園位置</h3>
+  <p class="mt-1 text-sm text-ink-soft">
+    臺中市南屯區中台路（大肚台地）。可直接縮放地圖查看公園入口與周邊道路。
+  </p>
+
+  <div class="mt-4 aspect-[4/3] overflow-hidden rounded-2xl">
+    <iframe
+      src={place.embedMapUrl}
+      title="望高寮夜景公園 Google 地圖"
+      width="600"
+      height="450"
+      style="border:0;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      class="h-full w-full"
+    ></iframe>
+  </div>
+</div>
