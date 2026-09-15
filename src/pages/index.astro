@@ -1,34 +1,53 @@
 ---
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import QuickFacts from "../components/QuickFacts.astro";
+import ReviewsSection from "../components/ReviewsSection.astro";
+import SourcesSection from "../components/SourcesSection.astro";
 import ViewpointComparison from "../components/ViewpointComparison.astro";
 import LazyGoogleMap from "../components/LazyGoogleMap.astro";
 import RouteCard from "../components/RouteCard.astro";
 import FAQList from "../components/FAQList.astro";
+import WeatherWidget from "../components/WeatherWidget.astro";
+import SeasonalStrategy from "../components/SeasonalStrategy.astro";
+import NeutralFacilityTypes from "../components/NeutralFacilityTypes.astro";
+import ScienceAndResponsibility from "../components/ScienceAndResponsibility.astro";
 import { place } from "../data/place";
 import { site } from "../data/site";
 import { faqItems } from "../data/faq";
 
-import heroImage from "../assets/hero/night-skyline.jpg";
-import parkImage from "../assets/park/park-2025.jpg";
-import lookoutImage from "../assets/viewpoints/lookout-southwest.jpg";
-import rainbowImage from "../assets/nearby/rainbow-village.jpg";
+import heroImage from "../assets/hero/wanggaoliao-skyline-night-1.jpg";
+import parkImage from "../assets/park/wanggaoliao-park-overview-1.jpg";
+import lookoutImage from "../assets/viewpoints/wanggaoliao-lookout-sunset-1.jpg";
+import rainbowImage from "../assets/nearby/rainbow-village-courtyard-1.jpg";
 
 const featuredFaq = faqItems.filter((item) => item.featured);
 
+const canonicalUrl = `${site.url}/`;
+
+/* ------------------------------------------------------------------
+   1. TouristAttraction：以 @id 錨定知識圖譜節點，並補上 image。
+   注意：評分與評價數「不寫入」此處，避免與 Google 地圖數據不同步。
+------------------------------------------------------------------ */
 const attractionSchema = {
   "@context": "https://schema.org",
   "@type": "TouristAttraction",
-  name: "望高寮夜景公園",
+  "@id": `${canonicalUrl}#attraction`,
+  name: place.name,
   alternateName: [
-    "Wanggaoliao Night View Park",
-    "Wangaoliao Night View Park",
+    place.englishName,
+    place.shortName,
+    "王田坎",
+    `${place.address.city}${place.name}`,
+    "臺中望高寮夜景公園",
     "東海古堡",
   ],
-  url: "https://wanggaoliao.com/",
-  description: "望高寮夜景公園交通、停車、導航、攝影與周邊行程指南。",
+  description: `望高寮夜景公園（${place.englishName}）位於${place.address.city}${place.address.district}大肚台地，是俯瞰${place.address.city}城市燈海與夕陽的代表性免費景點。本站提供交通、停車、導航、攝影與周邊行程指南。`,
+  url: canonicalUrl,
+  image: [`${site.url}${site.defaultOgImage}`],
   isAccessibleForFree: true,
+  inLanguage: "zh-Hant-TW",
   geo: {
     "@type": "GeoCoordinates",
     latitude: place.latitude,
@@ -36,13 +55,45 @@ const attractionSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: place.address.street,
+    streetAddress: place.address.streetAddress,
     addressLocality: place.address.district,
     addressRegion: place.address.city,
+    postalCode: place.address.postalCode,
     addressCountry: place.address.country,
   },
   hasMap: place.googleMapsUrl,
+  sameAs: [place.mapsShareUrl, place.govtTourismUrl],
   touristType: ["Couples", "Families", "Photographers"],
+};
+
+/* ------------------------------------------------------------------
+   2. FAQPage：只放頁面上實際顯示的題目，與畫面內容保持一致。
+------------------------------------------------------------------ */
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: featuredFaq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "首頁", item: canonicalUrl },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: `${place.name}（${place.address.city}）`,
+      item: canonicalUrl,
+    },
+  ],
 };
 
 const beforeYouGo = [
@@ -71,12 +122,42 @@ const beforeYouGo = [
     icon: "📷",
   },
 ];
+
+const historyPoints = [
+  {
+    title: "地名源於「望高之地」",
+    text: "「望高寮」一名在清代與日治文獻可見，意為「望見高處的瞭望點」；另一別稱「王田坎」指從稜線望向海線「王田」一帶，是本地口述歷史的一部分。地名本身，就是這裡地理特性的濃縮。",
+  },
+  {
+    title: "日治時期的軍事稜線",
+    text: "二戰末期，日軍在大肚台地修築「東海要塞群」，望高寮一帶曾設有機槍堡與觀測設施。這些戰後留下的軍事遺構被地方與歷史文化工作者統稱為「東海古堡」，至今仍可在園區主步道周邊看到，是非營利人文走讀的教材。",
+  },
+  {
+    title: "戰後從農墾到城市邊陲",
+    text: "戰後大肚台地一度為旱作農墾區；隨著臺中市區往南屯擴張，七期重劃區與高鐵臺中站相繼落成，望高寮從「城市邊陲」變成「俯瞰市區的最佳高點」之一。",
+  },
+  {
+    title: "免費夜景公園的成形",
+    text: "臺中市政府將此處整建為夜景公園，設有觀景空間、階梯步道與路間停車空間，並與 4K 即時影像合作；望高寮夜景公園（Wanggaoliao Night View Park）正是本站網域 wanggaoliao.com 的由來。",
+  },
+  {
+    title: "海拔不到 300 公尺，視野接近 360°",
+    text: "公園位於南屯區春社里，海拔約 200–280 公尺，東可望烏日、中彰快速；西可望臺中港與海線；南接彰化平原；北邊受七期高樓輕微遮蔽，這樣的視野是「望高寮」名字的由來。",
+  },
+  {
+    title: "地質：頭嵙山層的礫岩與砂岩互層",
+    text: "大肚台地屬頭嵙山層範圍，主要為礫岩、砂岩互層；承載力佳但表層風化後易崩滑，雨後草坡與階梯需特別注意，這也是「為什麼這裡的步道會有階梯與扶手」的原因。",
+  },
+];
 ---
 
 <BaseLayout
-  title="望高寮夜景公園｜停車、導航、即時影像與拍照攻略"
-  description="前往望高寮夜景公園前，先查看Google地圖導航、停車方式、夜景與夕陽觀景位置、即時影像、拍照建議及附近行程。"
-  imageAlt="從望高寮俯瞰臺中城市夜景燈海"
+  title="望高寮夜景公園（臺中市）｜停車、導航、即時影像與拍照攻略 - Wanggaoliao Visitor Guide"
+  description="望高寮夜景公園位於臺中市南屯區大肚台地，是臺中代表性的免費夜景地標。查看 Google 地圖導航、停車方式、夜景與夕陽觀景位置、即時影像、拍照建議，以及彩虹眷村與追分車站等周邊景點資訊。"
+  canonical="/"
+  ogTitle="望高寮夜景公園（臺中市）- 臺中夜景旅遊指南"
+  ogDescription="望高寮夜景公園（Wanggaoliao Night View Park）位於臺中市南屯區，本頁提供交通、停車、夜景與夕陽觀景位置、拍照建議與周邊行程。"
+  imageAlt="望高寮夜景公園的臺中市區夜景燈海"
   alternateLanguages={[
     { lang: "zh-Hant-TW", href: "/" },
     { lang: "en", href: "/en/" },
@@ -85,6 +166,8 @@ const beforeYouGo = [
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </Fragment>
 
   <!-- Hero -->
@@ -92,7 +175,7 @@ const beforeYouGo = [
     <div class="absolute inset-0">
       <Image
         src={heroImage}
-        alt="從望高寮俯瞰台中城市夜景燈海"
+        alt={`${place.name} - Main view in ${place.address.city}, ${place.address.countryNameEn}`}
         widths={[640, 1024, 1920]}
         sizes="100vw"
         class="h-full w-full object-cover opacity-50"
@@ -102,11 +185,21 @@ const beforeYouGo = [
       <div class="absolute inset-0 bg-gradient-to-t from-night via-night/60 to-night/30"></div>
     </div>
 
-    <div class="relative mx-auto max-w-6xl px-4 py-24 md:py-32">
-      <p class="text-sm font-semibold tracking-[0.3em] text-amber-cta">
-        {site.brandEn} · TAICHUNG
+    <div class="relative mx-auto max-w-6xl px-4 py-20 md:py-28">
+      <Breadcrumbs
+        tone="light"
+        crumbs={[
+          { label: "首頁", href: "/" },
+          { label: `${place.name}（${place.address.city}）` },
+        ]}
+      />
+
+      <p class="mt-6 text-sm font-semibold tracking-[0.3em] text-amber-cta">
+        {site.brandEn} · TAICHUNG CITY
       </p>
-      <h1 class="mt-3 text-4xl font-bold leading-tight md:text-5xl">望高寮夜景公園</h1>
+      <h1 class="mt-3 text-4xl font-bold leading-tight md:text-5xl">
+        望高寮夜景公園（臺中市）
+      </h1>
       <p class="mt-3 text-xl font-semibold text-slate-200 md:text-2xl">
         台中夜景、停車、導航與拍照攻略
       </p>
@@ -146,6 +239,14 @@ const beforeYouGo = [
     <QuickFacts />
   </section>
 
+  <!-- 即時天氣與未來一週 -->
+  <section class="mx-auto max-w-6xl px-4 pb-10">
+    <WeatherWidget />
+  </section>
+
+  <!-- 評分與評價（來源為 Google 地圖使用者評價，不寫入 JSON-LD） -->
+  <ReviewsSection class="pb-4" />
+
   <!-- 出發前先看 -->
   <section class="mx-auto max-w-6xl px-4 py-8">
     <h2 class="text-2xl font-bold text-ink md:text-3xl">出發前先看</h2>
@@ -170,6 +271,62 @@ const beforeYouGo = [
     </div>
   </section>
 
+  <!-- 關於望高寮夜景公園（實體語意綁定） -->
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">關於望高寮夜景公園</h2>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-3">
+      <div
+        class="prose prose-slate max-w-none lg:col-span-2 prose-headings:font-bold prose-headings:text-ink prose-a:text-amber-600"
+      >
+        <p>
+          望高寮夜景公園（Wanggaoliao Night View Park）位於臺中市南屯區大肚台地，是免費開放的觀景公園，
+          也是大家口中簡稱的「<strong>望高寮</strong>」——也就是本站網域
+          <strong>wanggaoliao.com</strong> 所指的景點。園區設有草坡、步道與觀景空間，面向臺中市區方向，
+          是旅客造訪臺中時俯瞰城市燈海的主要據點。
+        </p>
+        <p>
+          來到望高寮夜景公園，遊客可以順道探索周邊的歷史地標與景點，包括
+          <strong>彩虹眷村</strong>與<strong>追分車站</strong>；想走步道的話，知高圳步道與聚奎居也都在半小時車程內。
+        </p>
+      </div>
+
+      <aside class="rounded-2xl border border-line bg-white p-6">
+        <h3 class="text-sm font-bold text-ink">地理歸屬</h3>
+        <ol class="mt-2 flex flex-wrap items-center gap-1 text-sm text-ink-soft">
+          {
+            place.geoHierarchy.map((item, index) => (
+              <li class="flex items-center gap-1">
+                {index > 0 && <span aria-hidden="true">›</span>}
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h3 class="mt-5 text-sm font-bold text-ink">常見名稱</h3>
+        <ul class="mt-2 space-y-1 text-sm text-ink-soft">
+          <li>望高寮夜景公園（官方全稱）</li>
+          <li>望高寮（常用簡稱）</li>
+          <li>王田坎（舊稱）</li>
+          <li>Wanggaoliao Night View Park（英文名）</li>
+        </ul>
+
+        <h3 class="mt-5 text-sm font-bold text-ink">地址</h3>
+        <p class="mt-2 text-sm text-ink-soft">
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-amber-600 transition hover:underline"
+          >
+            {place.address.full} ↗
+          </a>
+        </p>
+      </aside>
+    </div>
+  </section>
+
   <!-- 夜景公園與觀景平台比較 -->
   <section class="mx-auto max-w-6xl px-4 py-10">
     <h2 class="text-2xl font-bold text-ink md:text-3xl">夜景公園與觀景平台，是兩個地方</h2>
@@ -181,7 +338,7 @@ const beforeYouGo = [
       <figure>
         <Image
           src={parkImage}
-          alt="望高寮夜景公園的草坡與觀景空間"
+          alt={`${place.name} in ${place.address.city} 的草坡與觀景空間`}
           widths={[480, 768, 1200]}
           sizes="(max-width: 1024px) 100vw, 50vw"
           class="aspect-[16/10] w-full rounded-2xl border border-line object-cover"
@@ -216,9 +373,15 @@ const beforeYouGo = [
     </a>
   </section>
 
-  <!-- Google 地圖 -->
-  <section class="mx-auto max-w-6xl px-4 py-10">
-    <h2 class="text-2xl font-bold text-ink md:text-3xl">位置與導航</h2>
+  <!-- Google 地圖：位置與前往方式 -->
+  <section id="location" class="mx-auto max-w-6xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">
+      位置與前往方式：望高寮夜景公園怎麼去
+    </h2>
+    <p class="mt-2 max-w-2xl text-ink-soft">
+      望高寮夜景公園地址為{place.address.full}（Plus Code：{place.plusCode}），
+      自駕、騎機車或叫車都可抵達；下方可直接開啟 Google 地圖確認路況與導航。
+    </p>
     <div class="mt-6 grid gap-6 lg:grid-cols-2">
       <LazyGoogleMap />
       <div class="rounded-2xl border border-line bg-white p-6">
@@ -245,6 +408,19 @@ const beforeYouGo = [
             怎麼去望高寮
           </a>
         </div>
+
+        <!-- 權威出站連結 -->
+        <p class="mt-5 border-t border-line pt-4 text-sm leading-relaxed text-ink-soft">
+          想看官方介紹與最新消息，請參考
+          <a
+            href={place.govtTourismUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-amber-600 transition hover:underline"
+          >
+            臺中市政府觀光旅遊局「臺中觀光旅遊網」望高寮夜景公園頁面 ↗
+          </a>。
+        </p>
       </div>
     </div>
   </section>
@@ -279,12 +455,24 @@ const beforeYouGo = [
     </div>
   </section>
 
-  <!-- 附近景點 -->
+  <!-- 四季游覽策略 -->
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <SeasonalStrategy />
+    <div class="mt-8">
+      <NeutralFacilityTypes />
+    </div>
+  </section>
+
+  <!-- 周邊地標與景點 -->
   <section class="mx-auto max-w-6xl px-4 py-14">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h2 class="text-2xl font-bold text-ink md:text-3xl">附近景點</h2>
-        <p class="mt-2 text-ink-soft">彩虹眷村、追分車站、知高圳步道都在半小時車程內。</p>
+        <h2 class="text-2xl font-bold text-ink md:text-3xl">
+          望高寮夜景公園周邊地標與景點
+        </h2>
+        <p class="mt-2 text-ink-soft">
+          彩虹眷村、追分車站、知高圳步道都在半小時車程內，很適合和望高寮排在同一天。
+        </p>
       </div>
       <a
         href="/nearby-attractions/"
@@ -297,7 +485,7 @@ const beforeYouGo = [
       <a href="/nearby-attractions/" class="group block">
         <Image
           src={rainbowImage}
-          alt="彩虹眷村的彩繪牆面"
+          alt={`彩虹眷村 near ${place.name}`}
           widths={[480, 768, 1200]}
           sizes="(max-width: 768px) 100vw, 50vw"
           class="aspect-[3/2] w-full rounded-2xl border border-line object-cover"
@@ -319,8 +507,36 @@ const beforeYouGo = [
     </div>
   </section>
 
+  <!-- 歷史與意義 -->
+  <section class="mx-auto max-w-6xl px-4 pb-10">
+    <h2 class="text-2xl font-bold text-ink md:text-3xl">
+      望高寮夜景公園的歷史與意義
+    </h2>
+    <p class="mt-2 max-w-2xl text-ink-soft">
+      望高寮不只是看夜景的地方，它同時是大肚台地軍事遺構與臺中城市發展的見證。
+    </p>
+
+    <div class="mt-6 grid gap-4 md:grid-cols-2">
+      {
+        historyPoints.map((point) => (
+          <article class="rounded-2xl border border-line bg-white p-6">
+            <h3 class="text-lg font-bold text-ink">{point.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">{point.text}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-6 text-sm leading-relaxed text-ink-soft">
+      想更深入了解日治時期機槍堡遺構與大肚台地的軍事背景，可閱讀
+      <a href="/nearby-attractions/" class="font-semibold text-amber-600 transition hover:underline">望高寮附近景點</a>
+      與
+      <a href="/night-view/" class="font-semibold text-amber-600 transition hover:underline">夜景攻略</a>。
+    </p>
+  </section>
+
   <!-- FAQ -->
-  <section class="mx-auto max-w-3xl px-4 pb-24 pt-4 md:pb-16">
+  <section class="mx-auto max-w-3xl px-4 pb-14 pt-4">
     <h2 class="text-2xl font-bold text-ink md:text-3xl">常見問題</h2>
     <div class="mt-6">
       <FAQList items={featuredFaq} />
@@ -331,5 +547,15 @@ const beforeYouGo = [
     >
       查看完整常見問題 →
     </a>
+  </section>
+
+  <!-- 望高寮的科學與責任 -->
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <ScienceAndResponsibility />
+  </section>
+
+  <!-- 資料來源與版權 -->
+  <section class="mx-auto max-w-6xl px-4 pb-24 md:pb-16">
+    <SourcesSection />
   </section>
 </BaseLayout>

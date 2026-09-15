@@ -1,10 +1,18 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "wanggaoliao",
-  "compatibility_date": "2026-07-27",
+  "compatibility_date": "2026-07-16",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "WEATHER_LAT": "24.143647",
+    "WEATHER_LON": "120.5815564"
   }
 }

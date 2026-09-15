@@ -1,0 +1,86 @@
+---
+/**
+ * 望高寮「科學・責任」兩條線重點，為一個全頁簡簡的 overview（不取代主文）。
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+const sections = [
+  {
+    title: "歷史與人文",
+    lead: "「望高」」一名可追溯至清代；「王田坎」、「東海古堡」是本地口述歴史的別稱。",
+    points: [
+      {
+        head: "地理區位",
+        body: "位於大肚台地稜線，南屯區春社里，行政劃分屬臺中市南屯區；海拔約 200–280 公尺。",
+      },
+      {
+        head: "地質與景觀",
+        body: "頭嵙山層磔岩、砂岩互層，承載力佳但表層易崩滑；視野接近 360°，是為什麼這裡能「望見全區」的關鍵。",
+      },
+      {
+        head: "氣象與生態",
+        body: "高度雖低，風速變化大；冬季冷氣團過境後「冷暖色溫」反差是另一個看夜景的理由。",
+      },
+    ],
+  },
+  {
+    title: "訪客責任",
+    lead: "望高寮是公共資源；請不要只是拍照走人。",
+    points: [
+      {
+        head: "廢棄物處理",
+        body: "這裡不是垃圾桶山；垃圾請帶下山、不可焚燒、不可掩埋。",
+      },
+      {
+        head: "夜間照明",
+        body: "請使用柔和雙色頭燈或變頻小夜燈；勿用高亮度探照燈直射他人與生態。",
+      },
+      {
+        head: "生態與動植物",
+        body: "不捕捉、不閃光、不取植物體；不取山泉水、不掠採棲地。",
+      },
+      {
+        head: "無人機與露營",
+        body: "無人機需向民航局與臺中市政府申請；園區內全面禁止露營、炊煮、過夜停留。",
+      },
+    ],
+  },
+];
+---
+
+<section
+  class:list={["not-prose mt-6", className]}
+  aria-labelledby="science-heading"
+>
+  <div class="flex flex-wrap items-end justify-between gap-2">
+    <h3 id="science-heading" class="text-lg font-bold text-ink md:text-xl">
+      望高寮的科學與責任
+    </h3>
+    <p class="text-xs text-ink-soft">非營利科普取自公開來源</p>
+  </div>
+
+  <div class="mt-5 grid gap-5 md:grid-cols-2">
+    {sections.map((section) => (
+      <article class="rounded-2xl border border-line bg-white p-6">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-amber-600">
+          {section.title}
+        </p>
+        <p class="mt-2 text-base font-bold text-ink">{section.lead}</p>
+        <ul class="mt-4 space-y-3 text-sm leading-relaxed text-ink">
+          {section.points.map((point) => (
+            <li>
+              <strong class="text-ink">{point.head}：</strong>{point.body}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <p class="mt-4 text-xs text-ink-soft">
+    完整內容請見<a href="/etiquette/" class="font-semibold text-amber-600 hover:underline">望高寮的歷史、生態與訪客責任 →</a>
+  </p>
+</section>

@@ -2,29 +2,106 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { place } from "../../data/place";
-import heroImage from "../../assets/hero/night-skyline.jpg";
+import { rating, reviewsSourceNote } from "../../data/rating";
+import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
 ---
 
 <BaseLayout
-  title="Wanggaoliao Night View Park — Visitor Guide | Taichung, Taiwan"
-  description="English guide to Wanggaoliao Night View Park in Taichung: how to get there, parking, best time for sunset and night views, and nearby attractions."
+  title="Wanggaoliao Night View Park Taichung: Hours, Parking, Transport & Live Camera"
+  description="Free hilltop park in Taichung for sunset and Taichung skyline night views. Hours 24/7, free parking, 20-30 min by car from downtown, live 4K camera, Rainbow Village nearby."
   canonical="/en/"
   language="en"
   ogLocale="en_US"
-  imageAlt="Taichung night skyline viewed from Wanggaoliao"
+  ogTitle="Wanggaoliao Night View Park (Taichung): Free Hilltop Sunset & Night Views"
+  ogDescription="Free 24-hour hilltop park in Taichung with sunset views over the coast and night views of the city skyline. Parking, transport, sunset and night view times, plus a live 4K camera and nearby Rainbow Village."
+  imageAlt="Taichung night skyline viewed from Wanggaoliao Night View Park"
   alternateLanguages={[
     { lang: "en", href: "/en/" },
     { lang: "zh-Hant-TW", href: "/" },
     { lang: "x-default", href: "/" },
   ]}
 >
-  <div class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
+  <Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    name: place.name,
+    alternateName: [place.englishName, place.shortNameEn, "望高寮夜景公園"],
+    url: `${site.url}/en/`,
+    image: [`${site.url}${site.defaultOgImage}`],
+    description: "Free 24-hour hilltop park in Taichung, Taiwan, famous for panoramic night views of the city skyline and sunset views toward Taichung Port.",
+    isAccessibleForFree: true,
+    publicAccess: true,
+    inLanguage: ["en", "zh-Hant-TW"],
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: place.latitude,
+      longitude: place.longitude,
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: place.address.streetAddress,
+      addressLocality: place.address.district,
+      addressRegion: place.address.city,
+      postalCode: place.address.postalCode,
+      addressCountry: place.address.country,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    ],
+    touristType: ["Couples", "Families", "Photographers"],
+    hasMap: place.googleMapsUrl,
+    sameAs: [place.mapsShareUrl, place.govtTourismUrl],
+  })} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${site.url}/en/`,
+    name: "Wanggaoliao Night View Park - Taichung Visitor Guide",
+    inLanguage: "en",
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url,
+    },
+  })} />
+</Fragment>
+
+<div class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
     <h1 class="text-3xl font-bold text-ink md:text-4xl">
-      Wanggaoliao Night View Park
+      Wanggaoliao Night View Park（Taichung）
     </h1>
     <p class="mt-3 text-lg leading-relaxed text-ink-soft">
       A free hilltop park on the Dadu Plateau in Taichung, Taiwan, famous for its
       panoramic night view of the city lights, and sunsets over the coastline.
+    </p>
+
+    <p class="mt-5 leading-relaxed text-ink">
+      Welcome to <strong>Wanggaoliao Night View Park</strong>, widely recognized as the
+      central <strong>Wanggaoliao</strong>. Located in the heart of
+      <strong>Taichung City</strong>, Nantun District, <strong>Taiwan</strong>, this
+      destination serves as a primary hub for travelers visiting the region. When
+      visiting Wanggaoliao Night View Park, visitors can easily explore surrounding
+      historical landmarks and points of interest, including
+      <strong>Rainbow Village</strong> and <strong>Zhuifen Station</strong>.
+    </p>
+
+    <p class="mt-3 text-sm text-ink-soft">
+      Wanggaoliao Night View Park › Taichung City › Nantun District › Taiwan ·
+      Address: {place.address.full} · Plus Code: {place.plusCode}
     </p>
 
     <div class="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -63,9 +140,13 @@ import heroImage from "../../assets/hero/night-skyline.jpg";
       <h2>Quick facts</h2>
       <ul>
         <li><strong>Admission:</strong> Free, open 24 hours, no ticket needed.</li>
-        <li><strong>Location:</strong> Zhongtai Road, Nantun District, Taichung City, Taiwan.</li>
+        <li><strong>Location:</strong> No. 601, Zhongtai Road, Chunshe Village, Nantun District, Taichung City, Taiwan.</li>
         <li><strong>Best time:</strong> arrive before sunset; the "blue hour" 20–40 minutes after sunset is the highlight.</li>
         <li><strong>What you see:</strong> Taichung city skyline, Taichung Port, and the Changhua plain.</li>
+        <li>
+          <strong>Google Maps rating:</strong> {rating.value} / 5 from {rating.reviewCountLabel}{" "}
+          user reviews (synced {rating.syncedAtLabel}).
+        </li>
       </ul>
 
       <h2>Two viewpoints, two directions</h2>
@@ -114,5 +195,70 @@ import heroImage from "../../assets/hero/night-skyline.jpg";
         <a href={place.liveCameraUrl} target="_blank" rel="noopener noreferrer">Taichung Tourism website</a>.
       </p>
     </div>
+
+    <section id="sources" class="mt-10 rounded-2xl border border-line bg-white p-6" lang="en">
+      <h2 class="text-lg font-bold text-ink">Sources, ratings &amp; image credits</h2>
+      <ul class="mt-3 space-y-3 text-sm leading-relaxed text-ink-soft">
+        <li>
+          <strong class="text-ink">Place data:</strong> name, address, Plus Code and
+          coordinates are taken from the Google Maps place page for Wanggaoliao Night
+          View Park.
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-amber-600 hover:underline">View on Google Maps ↗</a
+          >
+        </li>
+        <li>
+          <strong class="text-ink">Rating · synced {rating.syncedAtLabel}:</strong>
+          the {rating.value} / 5 score and {rating.reviewCountLabel} review count are
+          synced from Google Maps user reviews; copyright belongs to the original
+          reviewers and Google Maps.
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-amber-600 hover:underline"
+            >See all reviews on Google Maps ↗</a
+          >
+        </li>
+        <li>
+          <strong class="text-ink">Official information:</strong> attraction description
+          and the 4K live camera are provided by the Taichung City Government Tourism
+          Bureau.
+          <a
+            href={place.govtTourismUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-amber-600 hover:underline">Taichung Tourism ↗</a
+          >
+        </li>
+        <li>
+          <strong class="text-ink">Images:</strong> all image property and copyright on
+          this website belong to the original photographers.
+          <a href="/about/" class="font-semibold text-amber-600 hover:underline"
+            >Image credits ✓</a
+          >
+        </li>
+      </ul>
+      <p class="mt-4 flex flex-col gap-3 sm:flex-row">
+        <a
+          href={place.mapsShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night transition hover:brightness-105"
+        >
+          See all reviews on Google Maps
+        </a>
+        <a
+          href="/"
+          class="rounded-xl border border-line px-5 py-3 text-center font-semibold text-ink transition hover:border-amber-cta"
+        >
+          中文完整指南
+        </a>
+      </p>
+      <p class="mt-3 text-xs text-ink-soft">{reviewsSourceNote}</p>
+    </section>
   </div>
 </BaseLayout>

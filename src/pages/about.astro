@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import SourcesSection from "../components/SourcesSection.astro";
 import { photoCredits } from "../data/credits";
 import { site } from "../data/site";
+import { place } from "../data/place";
+import { imageRightsNotice, rating, reviewsSourceNote } from "../data/rating";
 ---
 
 <BaseLayout
@@ -34,7 +37,22 @@ import { site } from "../data/site";
         <li>內容為本站原創整理，會隨現場情況持續更新。</li>
       </ul>
 
+      <h2>評分與評價的來源</h2>
+      <p>
+        本站在景點頁面上顯示的「{rating.value} / 5、{rating.reviewCountLabel} 則評價」等數字，
+        是人工同步自
+        <a href={place.mapsShareUrl} target="_blank" rel="noopener noreferrer"
+          >Google 地圖（Google Maps）望高寮夜景公園景點頁 ↗</a
+        >的整體評分與評價數量，同步時間為 {rating.syncedAtLabel}。
+      </p>
+      <p>
+        {reviewsSourceNote}。本站僅同步顯示整體評分與數量，不轉載個別使用者的評價文字與照片；
+        完整評價內容、留言與照片請直接前往 Google 地圖查看。由於即時數據可能隨時變動，這些數字
+        僅供參考，並未寫入網站的結構化資料（JSON-LD）。
+      </p>
+
       <h2>圖片來源與授權</h2>
+      <p>{imageRightsNotice}</p>
       <p>
         本站圖片採用可商業使用的創用 CC 授權作品，並依授權條款標示作者與出處。感謝以下攝影者的分享：
       </p>
@@ -48,6 +66,10 @@ import { site } from "../data/site";
           ))
         }
       </ul>
+      <p>
+        若您是照片著作權人，對本站的使用方式有疑問或希望調整標示，歡迎來信
+        <a href={`mailto:${site.email}`}>{site.email}</a>，我們會盡快處理。
+      </p>
 
       <h2>聯絡我們</h2>
       <p>
@@ -55,5 +77,7 @@ import { site } from "../data/site";
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
     </div>
+
+    <SourcesSection class="mt-8" heading="資料來源與版權" />
   </div>
 </BaseLayout>

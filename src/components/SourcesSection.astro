@@ -1,0 +1,94 @@
+---
+import { place } from "../data/place";
+import {
+  imageRightsNotice,
+  rating,
+  reviewsSourceNote,
+  sourcesReviewLabel,
+} from "../data/rating";
+
+interface Props {
+  class?: string;
+  heading?: string;
+}
+
+const { class: className = "", heading = "資料來源與版權" } = Astro.props;
+
+const linkClass = "font-semibold text-amber-600 transition hover:underline";
+---
+
+<section
+  id="sources"
+  class:list={["not-prose rounded-2xl border border-line bg-white p-6", className]}
+  aria-labelledby="sources-heading"
+>
+  <h2 id="sources-heading" class="text-lg font-bold text-ink">{heading}</h2>
+  <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+    本站的景點資訊以官方與 Google 地圖公開資料為基礎整理，動態資訊請以來源頁面顯示為準。
+  </p>
+
+  <dl class="mt-5 space-y-4 text-sm leading-relaxed">
+    <div>
+      <dt class="font-bold text-ink">景點基本資料</dt>
+      <dd class="mt-1 text-ink-soft">
+        名稱「{place.name}」、地址「{place.address.full}」、Plus Code「{place.plusCode}」與座標
+        {place.latitude}, {place.longitude}，來源為
+        <a
+          href={place.mapsShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={linkClass}
+        >
+          Google 地圖望高寮夜景公園景點頁 ↗
+        </a>。
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-bold text-ink">{sourcesReviewLabel}</dt>
+      <dd class="mt-1 text-ink-soft">
+        {reviewsSourceNote}。目前顯示為 {rating.value} / 5，共 {rating.reviewCountLabel} 則評價。
+        <a
+          href={place.mapsShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={linkClass}
+        >
+          在 Google 地圖查看全部評價 ↗
+        </a>
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-bold text-ink">即時影像與官方景點介紹</dt>
+      <dd class="mt-1 text-ink-soft">
+        望高寮 4K 即時影像與景點介紹來源為臺中市政府觀光旅遊局「臺中觀光旅遊網」：
+        <a href={place.govtTourismUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
+          望高寮夜景公園官方頁面 ↗
+        </a>
+        <span aria-hidden="true"> · </span>
+        <a href={place.liveCameraUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
+          4K 即時影像 ↗
+        </a>
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-bold text-ink">周邊景點資訊</dt>
+      <dd class="mt-1 text-ink-soft">
+        彩虹眷村、追分車站、知高圳步道與聚奎居等周邊資訊，參考
+        <a href={place.govtNearbyUrl} target="_blank" rel="noopener noreferrer" class={linkClass}>
+          臺中觀光旅遊網周邊景點頁 ↗
+        </a>。
+      </dd>
+    </div>
+
+    <div>
+      <dt class="font-bold text-ink">圖片版權</dt>
+      <dd class="mt-1 text-ink-soft">
+        {imageRightsNotice}
+        <a href="/about/" class={linkClass}>查看圖片來源與授權 ✓</a>
+      </dd>
+    </div>
+  </dl>
+</section>

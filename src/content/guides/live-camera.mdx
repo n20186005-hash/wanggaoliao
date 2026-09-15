@@ -1,7 +1,7 @@
 ---
 title: "望高寮即時影像"
-seoTitle: "望高寮即時影像｜出發前先看現場天氣與能見度"
-description: "望高寮 4K 即時影像由臺中觀光旅遊網提供，出發前先確認雲層、能見度與現場狀況，避免白跑一趟。"
+seoTitle: "望高寮即時影像 24H 線上監視器｜出發前先看台中夜景與天氣現況"
+description: "24 小時望高寮即時影像直播。出發前先看 4K 現場畫面、雲層、能見度與人潮，判斷今晚是否值得跑夜景、避免白跑一趟。臺中觀光旅遊網官方 4K 訊號源，桌機與手機都能直接觀看。"
 category: "夜景"
 order: 7
 related:
@@ -15,6 +15,26 @@ related:
 
 import LiveCameraCard from "../../components/LiveCameraCard.astro";
 
+<Fragment slot="head">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: "望高寮即時影像 4K 線上監視器",
+    description: "臺中市政府觀光旅遊網提供的望高寮夜景公園 4K 24 小時即時影像，可用於判斷雲層、能見度、人潮與現場天氣。",
+    thumbnailUrl: ["https://wanggaoliao.com/og-default.jpg"],
+    uploadDate: "2024-01-01T00:00:00+08:00",
+    contentUrl: "https://travel.taichung.gov.tw/zh-tw/live-camera/56",
+    embedUrl: "https://www.youtube.com/embed/lhXXhDyjFtI?mute=1",
+    publisher: {
+      "@type": "Organization",
+      name: "臺中市政府觀光旅遊局",
+      url: "https://travel.taichung.gov.tw/"
+    },
+    inLanguage: "zh-Hant-TW",
+    isLiveBroadcast: true
+  })} />
+</Fragment>
+
 **出發前先看官方 4K 即時影像，確認現場能見度再上山。**
 望高寮的景色受天氣影響很大——雲層太低、起霧或雨後水氣重時，可能整片燈海都看不清楚。
 
@@ -26,17 +46,32 @@ import LiveCameraCard from "../../components/LiveCameraCard.astro";
 - **雲層高度**：低雲罩頂時，上山大概率只看得到霧。
 - **天色進度**：接近日落時看畫面，抓自己該出發的時間。
 - **現場天氣**：市區沒下雨不代表山上沒下雨。
+- **人潮**：假日傍晚畫面中出現大量車燈或人潮時，建議延後或改日。
 
 ## 建議的使用時機
 
 1. **出發前 1 小時**：確認能見度決定去不去。
 2. **想看夕陽的下午**：看西邊雲層厚度，判斷今天有沒有落日。
 3. **雨後想賭清透夜景**:雨停後看畫面，若遠景清晰，通常是能見度最好的時候。
+4. **假日人潮判斷**：看現場是否已停滿車，再決定是否上山。
 
 ## 判讀小技巧
 
 - 遠方高樓輪廓清晰＝能見度好，值得上山。
 - 畫面整體灰白、遠景模糊＝水氣重或霧，建議改期。
 - 傍晚畫面中天空有層次的雲＝夕陽和藍調可能很精彩。
+- 畫面中可見大量車頭燈或人影＝人潮高峰，建議改日或夜間 9 點後再上山。
+- 鏡頭中遠景完全消失＝起霧，幾乎肯定什麼都看不到。
 
-即時影像由臺中觀光旅遊網提供並維護；若播放器暫時無法載入，屬於來源端狀況，可稍後再試。
+## 常見問題
+
+**Q1. 即時影像看得到城市燈海嗎？**
+A：可以。這是 4K 全時段直播，傍晚到夜間都能清楚看到臺中市區輪廓與燈海，與你上山肉眼看到的幾乎一致。
+
+**Q2. 手機可以看嗎？**
+A：可以。本頁播放器支援手機自動播放（靜音模式），不需要額外 App。
+
+**Q3. 即時影像卡住怎麼辦？**
+A：屬於來源端狀況。訊號源由臺中市政府觀光旅遊網維護，可稍後再試，或改看 [臺中觀光旅遊網即時影像原始頁](https://travel.taichung.gov.tw/zh-tw/live-camera/56)。
+
+即時影像由臺中市政府觀光旅遊網提供並維護。

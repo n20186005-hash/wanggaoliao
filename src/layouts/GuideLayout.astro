@@ -4,7 +4,9 @@ import type { ImageMetadata } from "astro";
 import BaseLayout from "./BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import MapActions from "../components/MapActions.astro";
+import SourcesSection from "../components/SourcesSection.astro";
 import { site } from "../data/site";
+import { place } from "../data/place";
 
 interface RelatedLink {
   label: string;
@@ -37,6 +39,16 @@ const {
   related = [],
 } = Astro.props;
 
+/**
+ * 預設的 hreflang 對照：所有中文指南頁都會指向繁體中文本身與英文站。
+ * 若該頁需要精確對應到一個英文版本（目前僅首頁），仍可在呼叫端覆寫。
+ */
+const defaultAlternateLanguages = [
+  { lang: "zh-Hant-TW", href: canonical },
+  { lang: "en", href: "/en/" },
+  { lang: "x-default", href: canonical },
+];
+
 const canonicalUrl = new URL(canonical, Astro.site).href;
 
 const articleSchema = {
@@ -58,8 +70,23 @@ const articleSchema = {
   },
   about: {
     "@type": "TouristAttraction",
-    name: "望高寮夜景公園",
+    "@id": `${site.url}/#attraction`,
+    name: place.name,
+    alternateName: [place.englishName, place.shortName],
     url: site.url,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: place.latitude,
+      longitude: place.longitude,
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: place.address.streetAddress,
+      addressLocality: place.address.district,
+      addressRegion: place.address.city,
+      postalCode: place.address.postalCode,
+      addressCountry: place.address.country,
+    },
   },
 };
 
@@ -89,6 +116,7 @@ const breadcrumbSchema = {
   canonical={canonical}
   ogType="article"
   noindex={noindex}
+  alternateLanguages={defaultAlternateLanguages}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -155,5 +183,7 @@ const breadcrumbSchema = {
       <p class="font-bold text-white">準備出發了嗎？</p>
       <MapActions class="mt-4 justify-center" />
     </div>
+
+    <SourcesSection class="mt-8" />
   </article>
 </BaseLayout>

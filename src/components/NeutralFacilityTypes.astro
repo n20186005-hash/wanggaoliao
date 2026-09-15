@@ -1,0 +1,85 @@
+---
+/**
+ * 望高寮周邊常見服務類型中立概覽（不含任何具體店家推薦）
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+const groups: Array<{
+  category: string;
+  items: Array<{ icon: string; label: string; hint: string }>;
+}> = [
+  {
+    category: "行前與交通",
+    items: [
+      { icon: "🅿️", label: "停車空間", hint: "園區免費路肩停車；山下市區另有收費公營／民營停車場類型" },
+      { icon: "⛽", label: "加油站", hint: "山下五權西路、中港路周邊有公營／民營連鎖加油站類型" },
+      { icon: "🔌", label: "電動車充電", hint: "山頂無充電站；高鐵站周邊與公有停車場常有公共 AC／DC 充電樁" },
+      { icon: "🚌", label: "公車／客運", hint: "中台路上有市區公車與公路客運路線，市區與南屯往返" },
+    ],
+  },
+  {
+    category: "現場與補給",
+    items: [
+      { icon: "🚻", label: "公共廁所", hint: "園區入口附近有公廁；山頂無" },
+      { icon: "🚰", label: "飲水補給", hint: "園區無公共飲水機，建議自備飲水" },
+      { icon: "🍜", label: "餐飲類型", hint: "山頂無餐廳；山下春社、嶺東與交流道附近有各類連鎖餐飲、自助餐" },
+      { icon: "🛒", label: "便利商超", hint: "山頂無；山下春社、嶺東周邊有 24h 便利商店、超市與生鮮門市" },
+    ],
+  },
+  {
+    category: "周邊與住宿",
+    items: [
+      { icon: "🏨", label: "住宿類型", hint: "山上無住宿；山下南屯、烏日高鐵周邊有商務旅館、精品旅館、汽車旅館、民宿、青年旅舍等類型" },
+      { icon: "⛺", label: "露營／過夜", hint: "園區內禁止露營、炊煮與過夜停留" },
+      { icon: "🐶", label: "寵物寄宿", hint: "山下與市區有連鎖寵物旅館類型店家，週末需提前預約" },
+      { icon: "📶", label: "行動通訊", hint: "稜線三大電信類型訊號良好；公共 Wi-Fi 不普遍" },
+    ],
+  },
+  {
+    category: "安全與協助",
+    items: [
+      { icon: "🚑", label: "急救醫院", hint: "請查詢當時臺中市衛生局公告的急救責任醫院（不指定品牌）" },
+      { icon: "📞", label: "緊急電話", hint: "110／119；行動電話緊急號碼 112（無 SIM 卡亦可撥）" },
+      { icon: "🌧️", label: "氣象資訊", hint: "中央氣象署、4K 即時影像與本站天氣模組" },
+      { icon: "♿", label: "無障礙設施", hint: "主步道有無障礙觀景區與扶手；階梯段需評估體力" },
+    ],
+  },
+];
+---
+
+<section
+  class:list={["not-prose mt-6", className]}
+  aria-labelledby="facility-types-heading"
+>
+  <h3 id="facility-types-heading" class="text-lg font-bold text-ink md:text-xl">
+    周邊服務類型一覽
+  </h3>
+  <p class="mt-2 text-sm text-ink-soft">
+    本站僅整理常見類型與使用提醒，<strong class="text-ink">不推薦、不評比任何特定店家或品牌</strong>。
+    最新狀況請以 Google 地圖與現場公告為準。
+  </p>
+
+  <div class="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+    {groups.map((group) => (
+      <div class="rounded-2xl border border-line bg-white p-5">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-amber-600">
+          {group.category}
+        </p>
+        <ul class="mt-3 space-y-3">
+          {group.items.map((item) => (
+            <li class="flex gap-3">
+              <span aria-hidden="true" class="mt-0.5 text-xl leading-none">{item.icon}</span>
+              <div>
+                <p class="font-bold text-ink">{item.label}</p>
+                <p class="mt-1 text-xs leading-relaxed text-ink-soft">{item.hint}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

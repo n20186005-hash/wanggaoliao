@@ -1,0 +1,57 @@
+{
+  "id": "/",
+  "name": "望高寮夜景公園旅遊指南",
+  "short_name": "望高寮",
+  "description": "望高寮夜景公園（臺中市南屯區）交通、停車、夜景與夕陽觀景、拍照與周邊行程指南。",
+  "lang": "zh-Hant-TW",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#081426",
+  "theme_color": "#081426",
+  "categories": ["travel", "navigation"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "望高寮夜景攻略",
+      "short_name": "夜景",
+      "url": "/night-view/"
+    },
+    {
+      "name": "望高寮停車攻略",
+      "short_name": "停車",
+      "url": "/parking/"
+    },
+    {
+      "name": "望高寮即時影像",
+      "short_name": "即時影像",
+      "url": "/live-camera/"
+    },
+    {
+      "name": "常見問題",
+      "short_name": "FAQ",
+      "url": "/faq/"
+    }
+  ]
+}

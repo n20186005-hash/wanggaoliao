@@ -8,6 +8,7 @@ export const mainNav: NavItem[] = [
   { label: "停車", href: "/parking/" },
   { label: "怎麼去", href: "/directions/" },
   { label: "拍照", href: "/photography/" },
+  { label: "四季", href: "/seasons/" },
   { label: "附近景點", href: "/nearby-attractions/" },
 ];
 
@@ -20,6 +21,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "夜景公園與觀景平台差別", href: "/park-vs-viewpoint/" },
       { label: "拍照攻略", href: "/photography/" },
       { label: "即時影像", href: "/live-camera/" },
+      { label: "四季游覽指南", href: "/seasons/" },
     ],
   },
   {
@@ -29,6 +31,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "怎麼去", href: "/directions/" },
       { label: "搭公車前往", href: "/public-transport/" },
       { label: "廁所、步道與設施", href: "/facilities/" },
+      { label: "周邊服務類型", href: "/visitor-services/" },
       { label: "無障礙與長者指南", href: "/accessibility/" },
     ],
   },
@@ -46,6 +49,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
     title: "網站資訊",
     items: [
       { label: "常見問題", href: "/faq/" },
+      { label: "歷史與責任", href: "/etiquette/" },
       { label: "關於本站", href: "/about/" },
       { label: "隱私權政策", href: "/privacy/" },
       { label: "English Guide", href: "/en/" },

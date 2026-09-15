@@ -1,0 +1,250 @@
+---
+import { getWeather, weatherCodeIcon, type WeatherSnapshot, type WeatherTip } from "../server/weather";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+let weather: WeatherSnapshot | null = null;
+let loadError = false;
+try {
+  weather = await getWeather({
+    name: "望高寮夜景公園",
+    latitude: 24.139,
+    longitude: 120.612,
+  });
+} catch (error) {
+  loadError = true;
+  console.error("WeatherWidget: 取得即時天氣失敗", error);
+}
+
+const fetchedAtDisplay = weather
+  ? new Date(weather.fetchedAt + "+08:00").toLocaleString("zh-TW", {
+      hour: "2-digit",
+      minute: "2-digit",
+      month: "numeric",
+      day: "numeric",
+      timeZone: "Asia/Taipei",
+    })
+  : null;
+
+const current = weather?.current;
+const today = weather?.today;
+const advice = weather?.advice;
+const tomorrowDay = weather && weather.daily.length > 1 ? weather.daily[1] : null;
+
+const tipsByCat: Record<string, WeatherTip[]> = { 穿搭: [], 游玩: [], 随身: [] };
+if (advice) {
+  for (const tip of advice.tips) {
+    tipsByCat[tip.category].push(tip);
+  }
+}
+
+const hasAnyTip = advice && advice.tips.length > 0;
+const hasAnyWarning = advice && advice.warnings.length > 0;
+---
+
+<section
+  class:list={["rounded-2xl border border-line bg-white p-6 shadow-sm", className]}
+  aria-labelledby="weather-heading"
+  data-weather-root
+  data-weather-timezone="Asia/Taipei"
+>
+  <div class="flex flex-wrap items-end justify-between gap-2">
+    <div>
+      <p class="text-xs font-bold tracking-[0.16em] text-amber-600">出發前看天氣</p>
+      <h2 id="weather-heading" class="mt-1 text-2xl font-bold text-ink md:text-3xl">
+        即時天氣與未來一週
+      </h2>
+    </div>
+    {fetchedAtDisplay && (
+      <p class="text-xs text-ink-soft">
+        資料時間：{fetchedAtDisplay}（臺中時間）
+      </p>
+    )}
+  </div>
+
+  {weather ? (
+    <div class="mt-5 space-y-5" data-weather-snapshot>
+      <!-- 現在：當下天況 -->
+      <div class="rounded-2xl bg-paper p-5">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="text-sm font-semibold text-ink-soft">現在</p>
+            <div class="mt-1 flex items-baseline gap-3">
+              <span aria-hidden="true" class="text-5xl" data-weather-icon>
+                {weatherCodeIcon(current!.weatherCode, current!.isDay)}
+              </span>
+              <p class="text-5xl font-bold text-ink" data-weather-temperature>
+                {current!.temperatureC}°
+              </p>
+              <p class="text-base font-semibold text-ink" data-weather-label>
+                {current!.weatherLabel}
+              </p>
+            </div>
+            {advice && (
+              <p class="mt-2 text-sm text-ink-soft" data-weather-summary>{advice.summary}</p>
+            )}
+          </div>
+          <dl class="grid grid-cols-3 gap-x-4 gap-y-2 text-xs text-ink-soft sm:grid-cols-5">
+            <div>
+              <dt>體感</dt>
+              <dd class="font-semibold text-ink" data-weather-feels>
+                {current!.feelsLikeC !== null ? `${current!.feelsLikeC}°C` : "—"}
+              </dd>
+            </div>
+            <div>
+              <dt>濕度</dt>
+              <dd class="font-semibold text-ink" data-weather-humidity>
+                {current!.humidity}%
+              </dd>
+            </div>
+            <div>
+              <dt>風速</dt>
+              <dd class="font-semibold text-ink" data-weather-wind>
+                {current!.windSpeedKmh} km/h
+              </dd>
+            </div>
+            <div>
+              <dt>今日降雨機率</dt>
+              <dd class="font-semibold text-ink">
+                {today!.precipitationProbabilityMax}%
+              </dd>
+            </div>
+            <div>
+              <dt>紫外線指數</dt>
+              <dd class="font-semibold text-ink">{today!.uvIndexMax}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- 風險提醒 -->
+      {hasAnyWarning && (
+        <ul class="space-y-2" aria-label="風險提醒">
+          {advice!.warnings.map((w) => (
+            <li
+              class:list={[
+                "flex items-start gap-3 rounded-2xl border p-4 text-sm",
+                w.level === "danger" && "border-red-300 bg-red-50 text-red-900",
+                w.level === "caution" && "border-amber-300 bg-amber-50 text-amber-900",
+                w.level === "info" && "border-line bg-paper text-ink",
+              ]}
+              data-warning-level={w.level}
+            >
+              <span aria-hidden="true" class="mt-0.5 text-base">
+                {w.level === "danger" ? "⚠️" : w.level === "caution" ? "🟧" : "💡"}
+              </span>
+              <p>{w.text}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <!-- 遊客視覺建議（動態顯示） -->
+      {hasAnyTip && (
+        <div class="grid gap-4 md:grid-cols-3" data-weather-advice>
+          {(["穿搭", "游玩", "随身"] as const).map((cat) => {
+            const items = tipsByCat[cat] || [];
+            if (items.length === 0) return null;
+            const headline =
+              cat === "穿搭"
+                ? "✅ 出行穿搭"
+                : cat === "游玩"
+                  ? "🧭 游玩安排"
+                  : "🎒 隨身物品";
+            return (
+              <article class="rounded-2xl border border-line bg-white p-5">
+                <p class="text-sm font-bold text-ink">{headline}</p>
+                <ul class="mt-2 space-y-2 text-sm leading-relaxed text-ink">
+                  {items.map((t) => (
+                    <li class="flex gap-2">
+                      <span aria-hidden="true" class="mt-1 text-amber-600">•</span>
+                      <span>{t.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            );
+          })}
+        </div>
+      )}
+
+      <!-- 未來一週預報 -->
+      <div class="rounded-2xl border border-line bg-white p-5">
+        <p class="text-sm font-semibold text-ink-soft">未來七日</p>
+        <ol class="mt-3 grid grid-cols-7 gap-2">
+          {weather.daily.map((day) => (
+            <li class="flex flex-col items-center gap-1 rounded-xl bg-paper px-1 py-3 text-center">
+              <span class="text-xs text-ink-soft">{day.weekday}</span>
+              <span aria-hidden="true" class="text-2xl">{weatherCodeIcon(day.weatherCode, true)}</span>
+              <span class="text-[10px] font-semibold text-ink">{day.weatherLabel}</span>
+              <span class="text-sm font-bold text-ink">{day.temperatureMaxC}°</span>
+              <span class="text-xs text-ink-soft">{day.temperatureMinC}°</span>
+              <span class="text-[10px] text-ink-soft">
+                雨 {day.precipitationProbabilityMax}%
+              </span>
+            </li>
+          ))}
+        </ol>
+        {tomorrowDay && (
+          <p class="mt-4 text-sm text-ink-soft">
+            明日（{tomorrowDay.weekday}）最高 {tomorrowDay.temperatureMaxC}°、最低 {tomorrowDay.temperatureMinC}°，
+            降雨機率 {tomorrowDay.precipitationProbabilityMax}%；夜間前往前請再確認雲層與能見度。
+          </p>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div class="mt-5 rounded-xl border border-amber-cta/40 bg-amber-cta/10 p-4 text-sm text-ink">
+      {loadError
+        ? "目前無法取得即時天氣，請以中央氣象署或 4K 即時影像為準。"
+        : "正在取得天氣資料，請稍候。"}
+    </div>
+  )}
+
+  <p class="mt-4 text-xs text-ink-soft">
+    天氣資料僅供出發前參考，預報隨時間變動；最終判斷請以中央氣象署與現場即時影像為準。
+    <a
+      href="/live-camera/"
+      class="font-semibold text-amber-600 transition hover:underline">查看 4K 即時影像 →</a
+    >
+  </p>
+</section>
+
+<script>
+  // 客戶端於每次載入頁面時重新整理一次天氣資料（不對使用者暴露任何第三方介面名稱）
+  (async function () {
+    const root = document.querySelector("[data-weather-root]");
+    if (!root) return;
+    try {
+      const res = await fetch("/api/weather.json", { credentials: "same-origin" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data || !data.current || !data.advice) return;
+
+      const temp = root.querySelector("[data-weather-temperature]");
+      const label = root.querySelector("[data-weather-label]");
+      const feels = root.querySelector("[data-weather-feels]");
+      const humidity = root.querySelector("[data-weather-humidity]");
+      const wind = root.querySelector("[data-weather-wind]");
+      if (temp) temp.textContent = `${data.current.temperatureC}°`;
+      if (label) label.textContent = data.current.weatherLabel;
+      if (feels) {
+        feels.textContent =
+          data.current.feelsLikeC !== null ? `${data.current.feelsLikeC}°C` : "—";
+      }
+      if (humidity) humidity.textContent = `${data.current.humidity}%`;
+      if (wind) wind.textContent = `${data.current.windSpeedKmh} km/h`;
+
+      const summary = root.querySelector("[data-weather-summary]");
+      if (summary && data.advice && data.advice.summary) {
+        summary.textContent = data.advice.summary;
+      }
+    } catch (error) {
+      // 失敗時保留伺服器端烘焙的預設值即可。
+    }
+  })();
+</script>

@@ -1,6 +1,7 @@
 ---
 import { footerNav } from "../data/navigation";
 import { site } from "../data/site";
+import { imageRightsNotice, rating, reviewsSourceNote } from "../data/rating";
 
 const year = new Date().getFullYear();
 ---
@@ -30,6 +31,16 @@ const year = new Date().getFullYear();
       <p>
         Wanggaoliao.com 提供望高寮旅遊、交通與觀景資訊。開放狀態、路況及導航請以 Google
         地圖顯示為準。
+      </p>
+      <p class="mt-2">
+        評分與評價數（{rating.value} / 5，{rating.reviewCountLabel} 則）{reviewsSourceNote}，顯示時間
+        {rating.syncedAtLabel}。
+      </p>
+      <p class="mt-2">
+        {imageRightsNotice}
+        <a href="/about/" class="underline hover:text-amber-cta">圖片來源與授權</a>
+        <span aria-hidden="true"> · </span>
+        <a href="/about/#sources" class="underline hover:text-amber-cta">資料來源</a>
       </p>
       <p class="mt-2">
         聯絡我們：<a href={`mailto:${site.email}`} class="underline hover:text-amber-cta"

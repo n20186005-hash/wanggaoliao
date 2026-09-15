@@ -3,8 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import FAQList from "../components/FAQList.astro";
 import MapActions from "../components/MapActions.astro";
+import SourcesSection from "../components/SourcesSection.astro";
 import { faqItems } from "../data/faq";
 import { site } from "../data/site";
+import { place } from "../data/place";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -57,6 +59,10 @@ const breadcrumbSchema = {
     <div class="mt-10 rounded-2xl bg-night p-6 text-center">
       <p class="font-bold text-white">問題解決了？出發吧。</p>
       <MapActions class="mt-4 justify-center" />
+    </div>
+
+    <div class="mt-8">
+      <SourcesSection />
     </div>
   </div>
 </BaseLayout>

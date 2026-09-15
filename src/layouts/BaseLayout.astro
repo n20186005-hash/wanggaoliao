@@ -18,6 +18,10 @@ interface Props {
     href: string;
   }>;
   ogType?: "website" | "article";
+  /** 社群分享標題，未提供時使用 title */
+  ogTitle?: string;
+  /** 社群分享描述，未提供時使用 description */
+  ogDescription?: string;
   noindex?: boolean;
   showMobileMapBar?: boolean;
 }
@@ -32,6 +36,8 @@ const {
   ogLocale = "zh_TW",
   alternateLanguages = [],
   ogType = "website",
+  ogTitle = title,
+  ogDescription = description,
   noindex = false,
   showMobileMapBar = true,
 } = Astro.props;
@@ -65,7 +71,18 @@ const websiteSchema = {
       ))
     }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- PWA / 加入主畫面 -->
+    <meta name="application-name" content={site.brand} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content={site.brand} />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
 
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
     <script is:inline>
@@ -82,8 +99,8 @@ const websiteSchema = {
     <meta property="og:site_name" content={site.name} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:alt" content={imageAlt} />
@@ -91,8 +108,8 @@ const websiteSchema = {
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
 
@@ -113,5 +130,16 @@ const websiteSchema = {
     </main>
     <Footer />
     {showMobileMapBar && <MobileMapBar />}
+
+    <script is:inline>
+      // PWA：註冊 Service Worker（僅在支援的瀏覽器與非 file:// 環境下執行）
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js").catch(function () {
+            /* 註冊失敗不影響網站功能 */
+          });
+        });
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,97 @@
+---
+import { place } from "../data/place";
+import { rating, ratingSourceNote } from "../data/rating";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const stars = "★★★★★";
+const starFillPercent = `${Math.round((rating.value / 5) * 100)}%`;
+const ariaLabel = `Google 地圖評分 ${rating.value} 分（滿分 5 分），共 ${rating.reviewCountLabel} 則評價，類型：${rating.category}`;
+---
+
+<div class:list={["rounded-2xl border border-line bg-white p-6", className]}>
+  <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+    <div class="flex items-baseline gap-3">
+      <p class="text-4xl font-bold text-ink">{rating.value}</p>
+      <div>
+        <div class="relative inline-block select-none" role="img" aria-label={ariaLabel}>
+          <span aria-hidden="true" class="whitespace-nowrap text-xl leading-none text-line">{stars}</span>
+          <span
+            aria-hidden="true"
+            class="absolute inset-y-0 left-0 overflow-hidden whitespace-nowrap text-xl leading-none text-amber-cta"
+            style={`width:${starFillPercent}`}
+          >
+            {stars}
+          </span>
+        </div>
+        <p class="mt-1 text-sm font-semibold text-ink">
+          {rating.reviewCountLabel} 則評價 · {rating.category}
+        </p>
+      </div>
+    </div>
+
+    <dl class="min-w-0 flex-1 space-y-1 text-sm text-ink-soft">
+      <div class="flex gap-2">
+        <dt class="shrink-0 font-semibold text-ink">地址</dt>
+        <dd>
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition hover:text-amber-600 hover:underline"
+          >
+            {place.address.full}
+          </a>
+        </dd>
+      </div>
+      <div class="flex gap-2">
+        <dt class="shrink-0 font-semibold text-ink">Plus Code</dt>
+        <dd>
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition hover:text-amber-600 hover:underline"
+          >
+            {place.plusCode}
+          </a>
+        </dd>
+      </div>
+      <div class="flex gap-2">
+        <dt class="shrink-0 font-semibold text-ink">官方資訊</dt>
+        <dd>
+          <a href="/" class="font-semibold text-amber-600 transition hover:underline">
+            wanggaoliao.com
+          </a>
+          <span aria-hidden="true"> · </span>
+          <a
+            href={place.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition hover:text-amber-600 hover:underline"
+          >
+            Google 地圖景點頁 ↗
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <!--
+    評分來源聲明：數字為人工同步的快照，僅供頁面顯示，不寫入 JSON-LD。
+  -->
+  <p class="mt-4 border-t border-line pt-3 text-xs leading-relaxed text-ink-soft">
+    <a
+      href={rating.sourceUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="transition hover:text-amber-600 hover:underline"
+    >
+      {ratingSourceNote}
+    </a>
+  </p>
+</div>

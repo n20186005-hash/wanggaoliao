@@ -2,31 +2,52 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import RouteCard from "../../components/RouteCard.astro";
+import SourcesSection from "../../components/SourcesSection.astro";
 ---
 
 <BaseLayout
-  title="望高寮行程安排｜約會、半日遊與攝影路線"
-  description="三條把望高寮排進台中行程的路線：情侶約會夜遊、彩虹眷村半日遊、攝影半日路線，含時間軸與交通銜接。"
+  title="望高寮行程安排｜半日 / 全日 / 主題路線總整理"
+  description="把望高寮排進台中行程的路線：通用半日與全日，加上約會、攝影、親子家庭三條主題路線，含時間軸、交通銜接、安全提示。"
   canonical="/itineraries/"
+  ogTitle="望高寮行程安排 -半日 / 全日 / 主題路線"
+  ogDescription="把望高寮排進台中行程：半日、全日、以及約會、攝影、親子家庭三條主題路線。"
 >
   <div class="mx-auto max-w-6xl px-4 py-10 pb-28 md:pb-16">
     <Breadcrumbs crumbs={[{ label: "首頁", href: "/" }, { label: "行程安排" }]} />
 
     <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">望高寮行程安排</h1>
     <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">
-      望高寮最好的玩法是「排進行程裡」而不是單點來回。挑一條適合你的路線，從晚餐、夕陽到燈海一路順路。
+      望高寮最好的玩法是「**排進行程裡**」而不是單點來回。
+      先選「通用」的路線（下半部）為骨架，再依需要加上「主題」路線。
     </p>
 
-    <div class="mt-8 grid gap-5 md:grid-cols-3">
+    <h2 class="mt-10 text-2xl font-bold text-ink md:text-3xl">通用路線</h2>
+    <p class="mt-2 text-ink-soft">適用於「**一次看完整個台中**」行程，不限主題。</p>
+    <div class="mt-6 grid gap-5 md:grid-cols-3">
+      <RouteCard
+        title="通用半日遊"
+        steps={["彩虹村", "周邊晚餐", "望高寮夕陽", "夜景公園"]}
+        href="/itineraries/half-day/"
+      />
+      <RouteCard
+        title="通用全日遊"
+        steps={["白天景點", "知高圳步道", "望高寮夕陽", "夜景公園"]}
+        href="/itineraries/full-day/"
+      />
+      <RouteCard
+        title="親子家庭"
+        steps={["彩虹村", "知高圳入口", "望高寮", "夜景公園"]}
+        href="/itineraries/family/"
+      />
+    </div>
+
+    <h2 class="mt-12 text-2xl font-bold text-ink md:text-3xl">主題路線</h2>
+    <p class="mt-2 text-ink-soft">依「**目的**」加掛在通用路線之上。</p>
+    <div class="mt-6 grid gap-5 md:grid-cols-3">
       <RouteCard
         title="情侶夜遊"
         steps={["市區晚餐", "望高寮夜景", "台中宵夜或甜點"]}
         href="/itineraries/date-night/"
-      />
-      <RouteCard
-        title="經典半日遊"
-        steps={["彩虹村", "周邊晚餐", "望高寮夕陽", "夜景公園"]}
-        href="/itineraries/half-day/"
       />
       <RouteCard
         title="攝影路線"
@@ -38,6 +59,19 @@ import RouteCard from "../../components/RouteCard.astro";
         ]}
         href="/itineraries/photography/"
       />
+      <RouteCard
+        title="無障礙與長者"
+        steps={["主步道", "無障礙觀景區", "夜景公園", "緩步返程"]}
+        href="/accessibility/"
+      />
+    </div>
+
+    <p class="mt-8 text-sm leading-relaxed text-ink-soft">
+      想看更深入的主題規劃，請參考<a href="/seasons/" class="font-semibold text-amber-600 hover:underline">四季游覽指南</a>與<a href="/visitor-services/" class="font-semibold text-amber-600 hover:underline">周邊服務類型概覽</a>。
+    </p>
+
+    <div class="mt-10">
+      <SourcesSection />
     </div>
   </div>
 </BaseLayout>

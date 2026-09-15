@@ -1,0 +1,47 @@
+---
+import RatingSummary from "./RatingSummary.astro";
+import { place } from "../data/place";
+import { rating, reviewsButtonLabel, reviewsSourceNote } from "../data/rating";
+
+interface Props {
+  class?: string;
+  heading?: string;
+}
+
+const { class: className = "", heading = "旅客評分與評價" } = Astro.props;
+---
+
+<section
+  id="reviews"
+  class:list={["mx-auto max-w-6xl px-4 py-10", className]}
+  aria-labelledby="reviews-heading"
+>
+  <h2 id="reviews-heading" class="text-2xl font-bold text-ink md:text-3xl">{heading}</h2>
+  <p class="mt-2 max-w-2xl text-ink-soft">
+    以下是望高寮夜景公園在 Google 地圖上的整體評分與評價數量，方便你在出發前快速判斷這個景點的受歡迎程度。
+  </p>
+
+  <div class="mt-6">
+    <RatingSummary />
+  </div>
+
+  <div
+    class="mt-4 flex flex-col gap-4 rounded-2xl border border-line bg-paper p-5 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p class="text-xs leading-relaxed text-ink-soft">
+      {reviewsSourceNote}。本站不轉載個別使用者的評價文字與照片，完整評價內容請前往 Google 地圖查看。
+    </p>
+    <a
+      href={place.mapsShareUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="shrink-0 rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night transition hover:brightness-105"
+    >
+      {reviewsButtonLabel}
+    </a>
+  </div>
+
+  <p class="mt-3 text-xs text-ink-soft">
+    評分 {rating.value} / 5 · 評價數 {rating.reviewCountLabel} · 同步時間 {rating.syncedAtLabel}
+  </p>
+</section>
