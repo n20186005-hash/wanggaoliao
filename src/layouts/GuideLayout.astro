@@ -24,6 +24,11 @@ interface Props {
   heroCredit?: string;
   noindex?: boolean;
   related?: RelatedLink[];
+  /**
+   * 額外的 JSON-LD 結構化資料：例如 VideoObject、FAQPage、HowTo 等。
+   * 會以 `<script type="application/ld+json">` 注入 `<head>`。
+   */
+  extraSchema?: object[];
 }
 
 const {
@@ -37,6 +42,7 @@ const {
   heroCredit,
   noindex = false,
   related = [],
+  extraSchema = [],
 } = Astro.props;
 
 /**
@@ -121,6 +127,11 @@ const breadcrumbSchema = {
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    {
+      extraSchema.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
   </Fragment>
 
   <article class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16">

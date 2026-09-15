@@ -15,26 +15,6 @@ related:
 
 import LiveCameraCard from "../../components/LiveCameraCard.astro";
 
-<Fragment slot="head">
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: "望高寮即時影像 4K 線上監視器",
-    description: "臺中市政府觀光旅遊網提供的望高寮夜景公園 4K 24 小時即時影像，可用於判斷雲層、能見度、人潮與現場天氣。",
-    thumbnailUrl: ["https://wanggaoliao.com/og-default.jpg"],
-    uploadDate: "2024-01-01T00:00:00+08:00",
-    contentUrl: "https://travel.taichung.gov.tw/zh-tw/live-camera/56",
-    embedUrl: "https://www.youtube.com/embed/lhXXhDyjFtI?mute=1",
-    publisher: {
-      "@type": "Organization",
-      name: "臺中市政府觀光旅遊局",
-      url: "https://travel.taichung.gov.tw/"
-    },
-    inLanguage: "zh-Hant-TW",
-    isLiveBroadcast: true
-  })} />
-</Fragment>
-
 **出發前先看官方 4K 即時影像，確認現場能見度再上山。**
 望高寮的景色受天氣影響很大——雲層太低、起霧或雨後水氣重時，可能整片燈海都看不清楚。
 

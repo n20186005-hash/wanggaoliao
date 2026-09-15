@@ -13,6 +13,33 @@ export async function getStaticPaths() {
 const { guide } = Astro.props;
 const { Content } = await render(guide);
 const canonical = `/${guide.id}/`;
+
+/**
+ * 個別頁面可附加的 JSON-LD 結構化資料。
+ * 目前 live-camera 頁會額外加上 VideoObject，與 SEO CTR 優化目標一致。
+ */
+const extraSchema: Record<string, object[]> = {
+  "live-camera": [
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: "望高寮即時影像 4K 線上監視器",
+      description:
+        "臺中市政府觀光旅遊網提供的望高寮夜景公園 4K 24 小時即時影像，可用於判斷雲層、能見度、人潮與現場天氣。",
+      thumbnailUrl: ["https://wanggaoliao.com/og-default.jpg"],
+      uploadDate: "2024-01-01T00:00:00+08:00",
+      contentUrl: "https://travel.taichung.gov.tw/zh-tw/live-camera/56",
+      embedUrl: "https://www.youtube.com/embed/lhXXhDyjFtI?mute=1",
+      publisher: {
+        "@type": "Organization",
+        name: "臺中市政府觀光旅遊局",
+        url: "https://travel.taichung.gov.tw/",
+      },
+      inLanguage: "zh-Hant-TW",
+      isLiveBroadcast: true,
+    },
+  ],
+};
 ---
 
 <GuideLayout
@@ -26,6 +53,7 @@ const canonical = `/${guide.id}/`;
   heroCredit={guide.data.heroCredit}
   noindex={guide.data.noindex}
   related={guide.data.related}
+  extraSchema={extraSchema[guide.id]}
 >
   <Content />
 </GuideLayout>
