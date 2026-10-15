@@ -1,8 +1,14 @@
 ---
-import { footerNav } from "../data/navigation";
+import { footerNav, footerNavEn } from "../data/navigation";
 import { site } from "../data/site";
 import { imageRightsNotice, rating, reviewsSourceNote } from "../data/rating";
 
+interface Props {
+  lang?: "zh" | "en";
+}
+
+const { lang = "zh" } = Astro.props;
+const groups = lang === "en" ? footerNavEn : footerNav;
 const year = new Date().getFullYear();
 ---
 
@@ -10,7 +16,7 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-4 py-12">
     <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
       {
-        footerNav.map((group) => (
+        groups.map((group) => (
           <nav aria-label={group.title}>
             <h2 class="mb-3 text-sm font-bold text-white">{group.title}</h2>
             <ul class="space-y-2">
@@ -27,29 +33,53 @@ const year = new Date().getFullYear();
       }
     </div>
 
-    <div class="mt-10 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400">
-      <p>
-        Wanggaoliao.com 提供望高寮旅遊、交通與觀景資訊。開放狀態、路況及導航請以 Google
-        地圖顯示為準。
-      </p>
-      <p class="mt-2">
-        評分與評價數（{rating.value} / 5，{rating.reviewCountLabel} 則）{reviewsSourceNote}，顯示時間
-        {rating.syncedAtLabel}。
-      </p>
-      <p class="mt-2">
-        {imageRightsNotice}
-        <a href="/about/" class="underline hover:text-amber-cta">圖片來源與授權</a>
-        <span aria-hidden="true"> · </span>
-        <a href="/about/#sources" class="underline hover:text-amber-cta">資料來源</a>
-      </p>
-      <p class="mt-2">
-        聯絡我們：<a href={`mailto:${site.email}`} class="underline hover:text-amber-cta"
-          >{site.email}</a
-        >
-      </p>
-      <p class="mt-4 text-slate-400">
-        © {year} Wanggaoliao.com · {site.brand} {site.brandEn}
-      </p>
-    </div>
+    {
+      lang === "en" ? (
+        <div class="mt-10 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400">
+          <p>
+            Wanggaoliao.com provides travel, transport and viewpoint information for Wanggaoliao.
+            Opening status, road conditions and navigation should be confirmed on Google Maps.
+          </p>
+          <p class="mt-2">
+            Rating: {rating.value} / 5 from {rating.reviewCountLabel} Google Maps reviews (synced {rating.syncedAtLabel}).
+          </p>
+          <p class="mt-2">
+            {imageRightsNotice}
+            <a href="/about/" class="underline hover:text-amber-cta">Image credits &amp; license</a>
+            <span aria-hidden="true"> · </span>
+            <a href="/about/#sources" class="underline hover:text-amber-cta">Sources</a>
+          </p>
+          <p class="mt-2">
+            Contact: <a href={`mailto:${site.email}`} class="underline hover:text-amber-cta">{site.email}</a>
+          </p>
+          <p class="mt-4 text-slate-400">© {year} Wanggaoliao.com · {site.brand} {site.brandEn}</p>
+        </div>
+      ) : (
+        <div class="mt-10 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400">
+          <p>
+            Wanggaoliao.com 提供望高寮旅遊、交通與觀景資訊。開放狀態、路況及導航請以 Google
+            地圖顯示為準。
+          </p>
+          <p class="mt-2">
+            評分與評價數（{rating.value} / 5，{rating.reviewCountLabel} 則）{reviewsSourceNote}，顯示時間
+            {rating.syncedAtLabel}。
+          </p>
+          <p class="mt-2">
+            {imageRightsNotice}
+            <a href="/about/" class="underline hover:text-amber-cta">圖片來源與授權</a>
+            <span aria-hidden="true"> · </span>
+            <a href="/about/#sources" class="underline hover:text-amber-cta">資料來源</a>
+          </p>
+          <p class="mt-2">
+            聯絡我們：<a href={`mailto:${site.email}`} class="underline hover:text-amber-cta"
+              >{site.email}</a
+            >
+          </p>
+          <p class="mt-4 text-slate-400">
+            © {year} Wanggaoliao.com · {site.brand} {site.brandEn}
+          </p>
+        </div>
+      )
+    }
   </div>
 </footer>

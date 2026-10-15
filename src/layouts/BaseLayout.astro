@@ -42,6 +42,8 @@ const {
   showMobileMapBar = true,
 } = Astro.props;
 
+const uiLang = language === "en" ? "en" : "zh";
+
 const canonicalUrl = new URL(canonical, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 
@@ -124,11 +126,11 @@ const websiteSchema = {
     >
       跳至主要內容
     </a>
-    <Header />
+    <Header lang={uiLang} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={uiLang} />
     {showMobileMapBar && <MobileMapBar />}
 
     <script is:inline>

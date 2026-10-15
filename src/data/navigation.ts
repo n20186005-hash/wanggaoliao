@@ -12,6 +12,15 @@ export const mainNav: NavItem[] = [
   { label: "附近景點", href: "/nearby-attractions/" },
 ];
 
+export const mainNavEn: NavItem[] = [
+  { label: "Night View", href: "/night-view/" },
+  { label: "Parking", href: "/parking/" },
+  { label: "Getting There", href: "/directions/" },
+  { label: "Photography", href: "/photography/" },
+  { label: "Seasons", href: "/seasons/" },
+  { label: "Nearby", href: "/nearby-attractions/" },
+];
+
 export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "觀景攻略",
@@ -53,6 +62,51 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "關於本站", href: "/about/" },
       { label: "隱私權政策", href: "/privacy/" },
       { label: "English Guide", href: "/en/" },
+    ],
+  },
+];
+
+export const footerNavEn: { title: string; items: NavItem[] }[] = [
+  {
+    title: "Viewing Guides",
+    items: [
+      { label: "Night View", href: "/night-view/" },
+      { label: "Sunset", href: "/sunset/" },
+      { label: "Night Park vs Lookout", href: "/park-vs-viewpoint/" },
+      { label: "Photography", href: "/photography/" },
+      { label: "Live Camera", href: "/live-camera/" },
+      { label: "Four Seasons", href: "/seasons/" },
+    ],
+  },
+  {
+    title: "Transport & Facilities",
+    items: [
+      { label: "Parking", href: "/parking/" },
+      { label: "Getting There", href: "/directions/" },
+      { label: "By Bus", href: "/public-transport/" },
+      { label: "Restrooms & Trails", href: "/facilities/" },
+      { label: "Visitor Services", href: "/visitor-services/" },
+      { label: "Accessibility", href: "/accessibility/" },
+    ],
+  },
+  {
+    title: "Itineraries & Nearby",
+    items: [
+      { label: "Date Night", href: "/itineraries/date-night/" },
+      { label: "Half-Day Trip", href: "/itineraries/half-day/" },
+      { label: "Photo Route", href: "/itineraries/photography/" },
+      { label: "Nearby Attractions", href: "/nearby-attractions/" },
+      { label: "Nearby Food", href: "/nearby-food/" },
+    ],
+  },
+  {
+    title: "Site Info",
+    items: [
+      { label: "FAQ", href: "/faq/" },
+      { label: "History & Responsibility", href: "/etiquette/" },
+      { label: "About", href: "/about/" },
+      { label: "Privacy", href: "/privacy/" },
+      { label: "中文指南", href: "/" },
     ],
   },
 ];

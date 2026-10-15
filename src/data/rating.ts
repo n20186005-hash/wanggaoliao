@@ -10,15 +10,15 @@ import { place } from "./place";
  */
 export const rating = {
   value: 4.5,
-  reviewCount: 14882,
+  reviewCount: 14961,
   /** 顯示用的千分位字串 */
-  reviewCountLabel: "14,882",
+  reviewCountLabel: "14,961",
   category: "公園",
 
   /** 同步年月（ISO 縮寫） */
-  syncedAt: "2026-09",
+  syncedAt: "2026-10",
   /** 同步年月（顯示用） */
-  syncedAtLabel: "2026 年 9 月",
+  syncedAtLabel: "2026 年 10 月",
 
   sourceName: "Google 地圖",
   sourceUrl: place.mapsShareUrl,
