@@ -30,6 +30,8 @@ const guides = defineCollection({
       heroCredit: z.string().optional(),
       mapQuery: z.string().optional(),
       officialSource: z.string().url().optional(),
+      hoursSummary: z.string().optional(),
+      admissionSummary: z.string().optional(),
       noindex: z.boolean().default(false),
       related: z
         .array(z.object({ label: z.string(), href: z.string() }))

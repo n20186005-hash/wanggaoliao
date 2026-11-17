@@ -24,6 +24,8 @@ interface Props {
   heroCredit?: string;
   mapQuery?: string;
   officialSource?: string;
+  hoursSummary?: string;
+  admissionSummary?: string;
   noindex?: boolean;
   related?: RelatedLink[];
   /**
@@ -44,6 +46,8 @@ const {
   heroCredit,
   mapQuery,
   officialSource,
+  hoursSummary,
+  admissionSummary,
   noindex = false,
   related = [],
   extraSchema = [],
@@ -153,6 +157,12 @@ const breadcrumbSchema = {
       <p class="text-sm font-semibold text-amber-600">{category}</p>
       <h1 class="mt-2 text-3xl font-bold leading-snug text-ink md:text-4xl">{title}</h1>
       <p class="mt-4 text-lg leading-relaxed text-ink-soft">{description}</p>
+      {(hoursSummary || admissionSummary) && (
+        <div class="mt-5 grid gap-3 rounded-2xl border border-line bg-white p-4 text-sm sm:grid-cols-2">
+          {hoursSummary && <p><strong class="block text-ink">開放資訊</strong><span class="text-ink-soft">{hoursSummary}</span></p>}
+          {admissionSummary && <p><strong class="block text-ink">參觀費用</strong><span class="text-ink-soft">{admissionSummary}</span></p>}
+        </div>
+      )}
     </header>
 
     {mapUrl && directionsUrl ? (
