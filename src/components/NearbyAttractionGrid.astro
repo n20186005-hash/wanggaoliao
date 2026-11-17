@@ -18,6 +18,9 @@ import hunterPark from "../assets/nearby/hunter-memorial-park.jpg";
 import luceChapel from "../assets/nearby/luce-chapel.jpg";
 import artStreet from "../assets/nearby/tunghai-art-street.jpg";
 
+interface Props { lang?: "zh" | "en"; }
+const { lang = "zh" } = Astro.props;
+
 interface NearbySpot {
   name: string;
   href?: string;
@@ -209,13 +212,43 @@ const spots: NearbySpot[] = [
   },
 ];
 
+const englishCards = [
+  ["Rainbow Village", "Painted lanes and colourful walls; best visited in daylight before heading up to Wanggaoliao.", "Photography, families"],
+  ["Zhigao Canal Trail", "A shaded canal-side walk, with optional longer branches that need extra time and energy.", "Walking, nature"],
+  ["Zhuifen Station", "A historic timber railway station linked to the popular Zhuifen–Chenggong name pairing.", "Rail heritage"],
+  ["Jukuiju Mansion", "A heritage residence combining Chinese courtyard forms and Western-style details; check booking rules.", "Architecture, history"],
+  ["Fazi River Waterfront", "A riverside promenade and the large TAICHUNG landmark for an easy photo stop.", "Riverside photos"],
+  ["Chenggong Station", "An active railway station associated with the Zhuifen–Chenggong story; observe rail safety.", "Railway culture"],
+  ["Dadu Blue Road", "A winding hillside road, not a single attraction; do not stop on bends for photographs.", "Scenic driving"],
+  ["Dadu Great Wall Hiking Trail", "Undulating plateau paths with possible coastal-plain views; check trail closure notices.", "Hiking, viewpoints"],
+  ["Ruijing Village and Old Wells", "Explore the village's traditional wells and water history while respecting residential lanes.", "Old wells, culture"],
+  ["Ruijing Hiking Trail", "Woodland routes through the red-earth plateau, suitable to pair with Ruijing Village.", "Nature, hiking"],
+  ["Huangxi Academy", "A Qing-era academy with traditional brick ornament and educational heritage.", "Historic buildings"],
+  ["Dadu Wanxing Temple", "A local Mazu temple with roof decoration, a temple forecourt and community traditions.", "Temple culture"],
+  ["Zhukeng–Nanliao Hiking Trail", "A network of A, B and C hillside paths near Longjing; choose the correct trailhead.", "Woodland hiking"],
+  ["Dr Hunter Memorial Park", "A community memorial to the professor who helped improve water access on the plateau.", "Local history"],
+  ["Luce Memorial Chapel", "Tunghai University's landmark curved-roof chapel; respect campus access rules.", "Modern architecture"],
+  ["Tunghai Art Street", "Independent shops and cafés along International Street in Longjing.", "Art shops, cafés"],
+] as const;
+
+const displaySpots = spots.map((spot, index) => lang === "en" ? {
+  ...spot,
+  name: englishCards[index][0],
+  description: englishCards[index][1],
+  bestFor: englishCards[index][2],
+  driveTime: "Check travel time",
+  stayTime: spot.stayTime.replace("分鐘", "min").replace("彈性安排", "Flexible"),
+  href: spot.href ? `/en${spot.href}` : undefined,
+  imageAlt: englishCards[index][0],
+} : spot);
+
 const mapUrl = (query: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 ---
 
 <div class="not-prose my-8 grid gap-4 sm:grid-cols-2">
   {
-    spots.map((spot) => (
+    displaySpots.map((spot) => (
       <article
         class:list={[
           "overflow-hidden rounded-2xl border border-line shadow-sm",
@@ -256,11 +289,11 @@ const mapUrl = (query: string) =>
             ]}
           >
             <div>
-              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>建議停留</dt>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>{lang === "en" ? "Suggested stay" : "建議停留"}</dt>
               <dd class="mt-1 font-semibold">{spot.stayTime}</dd>
             </div>
             <div>
-              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>適合</dt>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>{lang === "en" ? "Best for" : "適合"}</dt>
               <dd class="mt-1 font-semibold">{spot.bestFor}</dd>
             </div>
           </dl>
@@ -270,7 +303,7 @@ const mapUrl = (query: string) =>
             rel={spot.href ? undefined : "noopener noreferrer"}
             class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
           >
-            {spot.href ? "閱讀完整景點指南 →" : "在 Google 地圖查看 →"}
+            {lang === "en" ? (spot.href ? "Read attraction guide →" : "View on Google Maps →") : (spot.href ? "閱讀完整景點指南 →" : "在 Google 地圖查看 →")}
           </a>
           {spot.href && <a
             href={mapUrl(spot.mapQuery)}
@@ -278,7 +311,7 @@ const mapUrl = (query: string) =>
             rel="noopener noreferrer"
             class="mt-3 ml-4 inline-flex text-sm font-semibold text-amber-600 hover:underline"
           >
-            景點地圖 ↗
+            {lang === "en" ? "Location map ↗" : "景點地圖 ↗"}
           </a>}
         </div>
       </article>
