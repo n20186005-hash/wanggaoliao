@@ -41,4 +41,8 @@ const guides = defineCollection({
 
 export const collections = {
   guides,
+  englishFull: defineCollection({
+    loader: glob({ base: "./src/content/english-full", pattern: "**/*.{md,mdx}" }),
+    schema: z.object({ title: z.string() }),
+  }),
 };
