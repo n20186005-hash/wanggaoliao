@@ -128,14 +128,14 @@ const websiteSchema = {
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2"
     >
-      跳至主要內容
+      {uiLang === "en" ? "Skip to main content" : "跳至主要內容"}
     </a>
     <Header lang={uiLang} mapUrl={mapUrl} />
     <main id="main">
       <slot />
     </main>
     <Footer lang={uiLang} />
-    {showMobileMapBar && <MobileMapBar mapUrl={mapUrl} directionsUrl={directionsUrl} />}
+    {showMobileMapBar && <MobileMapBar mapUrl={mapUrl} directionsUrl={directionsUrl} lang={uiLang} />}
 
     <script is:inline>
       // PWA：註冊 Service Worker（僅在支援的瀏覽器與非 file:// 環境下執行）
