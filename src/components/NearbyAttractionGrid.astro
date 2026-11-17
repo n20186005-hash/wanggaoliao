@@ -8,6 +8,7 @@ import jukuigu from "../assets/nearby/jukuigu-courtyard-1.jpg";
 
 interface NearbySpot {
   name: string;
+  href?: string;
   driveTime: string;
   stayTime: string;
   bestFor: string;
@@ -20,6 +21,7 @@ interface NearbySpot {
 const spots: NearbySpot[] = [
   {
     name: "彩虹眷村",
+    href: "/attractions/rainbow-village/",
     driveTime: "約 10–15 分鐘",
     stayTime: "30–60 分鐘",
     bestFor: "拍照、親子、第一次到訪",
@@ -30,6 +32,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "知高圳步道",
+    href: "/attractions/zhigao-trail/",
     driveTime: "約 10–15 分鐘",
     stayTime: "60–90 分鐘",
     bestFor: "散步、親子、自然景觀",
@@ -40,6 +43,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "追分車站",
+    href: "/attractions/zhuifen-station/",
     driveTime: "約 15–20 分鐘",
     stayTime: "30–45 分鐘",
     bestFor: "鐵道、老建築、紀念車票",
@@ -50,6 +54,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "聚奎居",
+    href: "/attractions/jukuiju/",
     driveTime: "約 15–20 分鐘",
     stayTime: "45–75 分鐘",
     bestFor: "古蹟、建築、文化旅行",
@@ -132,13 +137,21 @@ const mapUrl = (query: string) =>
             </div>
           </dl>
           <a
+            href={spot.href ?? mapUrl(spot.mapQuery)}
+            target={spot.href ? undefined : "_blank"}
+            rel={spot.href ? undefined : "noopener noreferrer"}
+            class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
+          >
+            {spot.href ? "閱讀完整景點指南 →" : "在 Google 地圖查看 →"}
+          </a>
+          {spot.href && <a
             href={mapUrl(spot.mapQuery)}
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
+            class="mt-3 ml-4 inline-flex text-sm font-semibold text-amber-600 hover:underline"
           >
-            在 Google 地圖查看 →
-          </a>
+            景點地圖 ↗
+          </a>}
         </div>
       </article>
     ))

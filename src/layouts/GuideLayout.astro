@@ -22,6 +22,8 @@ interface Props {
   heroImage?: ImageMetadata;
   heroAlt?: string;
   heroCredit?: string;
+  mapQuery?: string;
+  officialSource?: string;
   noindex?: boolean;
   related?: RelatedLink[];
   /**
@@ -40,6 +42,8 @@ const {
   heroImage,
   heroAlt,
   heroCredit,
+  mapQuery,
+  officialSource,
   noindex = false,
   related = [],
   extraSchema = [],
@@ -51,11 +55,12 @@ const {
  */
 const defaultAlternateLanguages = [
   { lang: "zh-Hant-TW", href: canonical },
-  { lang: "en", href: "/en/" },
   { lang: "x-default", href: canonical },
 ];
 
 const canonicalUrl = new URL(canonical, Astro.site).href;
+const mapUrl = mapQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}` : undefined;
+const directionsUrl = mapQuery ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}` : undefined;
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -74,7 +79,12 @@ const articleSchema = {
     name: site.name,
     url: site.url,
   },
-  about: {
+  about: mapQuery ? {
+    "@type": "TouristAttraction",
+    name: title,
+    hasMap: mapUrl,
+    sameAs: officialSource ? [officialSource] : undefined,
+  } : {
     "@type": "TouristAttraction",
     "@id": `${site.url}/#attraction`,
     name: place.name,
@@ -143,7 +153,12 @@ const breadcrumbSchema = {
       <p class="mt-4 text-lg leading-relaxed text-ink-soft">{description}</p>
     </header>
 
-    <MapActions class="mt-6" />
+    {mapUrl && directionsUrl ? (
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-line bg-white px-5 py-3 text-center font-semibold text-ink">查看此景點地圖</a>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night">導航至此景點</a>
+      </div>
+    ) : <MapActions class="mt-6" />}
 
     {
       heroImage && (
@@ -192,7 +207,7 @@ const breadcrumbSchema = {
 
     <div class="mt-10 rounded-2xl bg-night p-6 text-center">
       <p class="font-bold text-white">準備出發了嗎？</p>
-      <MapActions class="mt-4 justify-center" />
+      {mapUrl && directionsUrl ? <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block rounded-xl bg-amber-cta px-5 py-3 font-bold text-night">導航至{title}</a> : <MapActions class="mt-4 justify-center" />}
     </div>
 
     <SourcesSection class="mt-8" />
