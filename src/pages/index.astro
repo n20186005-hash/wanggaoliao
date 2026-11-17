@@ -4,7 +4,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import QuickFacts from "../components/QuickFacts.astro";
 import ReviewsSection from "../components/ReviewsSection.astro";
-import SourcesSection from "../components/SourcesSection.astro";
 import ViewpointComparison from "../components/ViewpointComparison.astro";
 import LazyGoogleMap from "../components/LazyGoogleMap.astro";
 import RouteCard from "../components/RouteCard.astro";
@@ -562,8 +561,7 @@ const historyPoints = [
     <ScienceAndResponsibility />
   </section>
 
-  <!-- 資料來源與版權 -->
-  <section class="mx-auto max-w-6xl px-4 pb-24 md:pb-16">
-    <SourcesSection />
-  </section>
+  <div class="mx-auto max-w-6xl px-4 pb-24 text-right md:pb-16">
+    <a href="/sources/" class="text-sm font-semibold text-amber-700 hover:underline">查看資料來源與版權 →</a>
+  </div>
 </BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { place } from "../../data/place";
+import { rating } from "../../data/rating";
+---
+
+<BaseLayout title="Sources & Image Credits | Wanggaoliao" description="Primary sources for Wanggaoliao location details, Google Maps reviews, Taichung tourism and photograph credits." canonical="/en/sources/" language="en" ogLocale="en_US" alternateLanguages={[{ lang: "en", href: "/en/sources/" }, { lang: "zh-Hant-TW", href: "/sources/" }]} showMobileMapBar={false}>
+  <main class="mx-auto max-w-3xl px-4 py-10 pb-24" lang="en">
+    <a href="/en/" class="text-sm font-semibold text-amber-700 hover:underline">← English home</a>
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">Sources &amp; Image Credits</h1>
+    <p class="mt-3 leading-relaxed text-ink-soft">We identify the source of location, rating, public tourism and image information so visitors can check details before travelling.</p>
+    <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink prose-a:text-amber-700">
+      <h2>Place information</h2>
+      <p>The attraction is listed as Wanggaoliao Night View Park (望高寮夜景公園). Its address is {place.address.full}, Taiwan; Plus Code: {place.plusCode}; coordinates: {place.latitude}, {place.longitude}. The location information comes from <a href={place.mapsShareUrl} target="_blank" rel="noopener noreferrer">its Google Maps place listing</a>.</p>
+      <h2>Reviews · last synchronized October 2026</h2>
+      <p>The displayed aggregate rating is {rating.value} out of 5, based on {rating.reviewCountLabel} Google Maps user reviews, synchronized in October 2026. Reviews and their copyright belong to their respective authors and Google Maps. This is a snapshot; current numbers may differ. <a href={place.mapsShareUrl} target="_blank" rel="noopener noreferrer">Check all reviews on Google Maps</a>.</p>
+      <h2>Official attraction description and live camera</h2>
+      <p>The attraction description and 4K live view are referenced from the Taichung City Government Tourism and Travel Bureau's tourism portal: <a href={place.govtTourismUrl} target="_blank" rel="noopener noreferrer">official Wanggaoliao attraction page</a> and <a href={place.liveCameraUrl} target="_blank" rel="noopener noreferrer">4K live camera</a>.</p>
+      <h2>Nearby attractions</h2>
+      <p>Background for Rainbow Village, Zhuifen Station, Zhigao Irrigation Trail, Jukuiju and other nearby stops is cross-checked against the <a href={place.govtNearbyUrl} target="_blank" rel="noopener noreferrer">Taichung Tourism attraction directory</a> and location-specific references.</p>
+      <h2>Images and rights</h2>
+      <p>All image property rights and copyright belong to the original photographers. Photographer, source and licence details are listed on our <a href="/en/about/">About page</a> and in relevant attraction guides. A credit does not itself grant permission for reuse.</p>
+      <h2>Corrections</h2>
+      <p>Opening status, map details, ratings and transport information can change. Please verify current information with the relevant source and contact us through the <a href="/en/about/">About page</a> if you find an error.</p>
+    </div>
+  </main>
+</BaseLayout>
