@@ -22,6 +22,10 @@ interface Props {
   heroImage?: ImageMetadata;
   heroAlt?: string;
   heroCredit?: string;
+  mapQuery?: string;
+  officialSource?: string;
+  hoursSummary?: string;
+  admissionSummary?: string;
   noindex?: boolean;
   related?: RelatedLink[];
   /**
@@ -40,6 +44,10 @@ const {
   heroImage,
   heroAlt,
   heroCredit,
+  mapQuery,
+  officialSource,
+  hoursSummary,
+  admissionSummary,
   noindex = false,
   related = [],
   extraSchema = [],
@@ -51,11 +59,12 @@ const {
  */
 const defaultAlternateLanguages = [
   { lang: "zh-Hant-TW", href: canonical },
-  { lang: "en", href: "/en/" },
   { lang: "x-default", href: canonical },
 ];
 
 const canonicalUrl = new URL(canonical, Astro.site).href;
+const mapUrl = mapQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}` : undefined;
+const directionsUrl = mapQuery ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}` : undefined;
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -74,7 +83,12 @@ const articleSchema = {
     name: site.name,
     url: site.url,
   },
-  about: {
+  about: mapQuery ? {
+    "@type": "TouristAttraction",
+    name: title,
+    hasMap: mapUrl,
+    sameAs: officialSource ? [officialSource] : undefined,
+  } : {
     "@type": "TouristAttraction",
     "@id": `${site.url}/#attraction`,
     name: place.name,
@@ -123,6 +137,8 @@ const breadcrumbSchema = {
   ogType="article"
   noindex={noindex}
   alternateLanguages={defaultAlternateLanguages}
+  mapUrl={mapUrl}
+  directionsUrl={directionsUrl}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -141,9 +157,20 @@ const breadcrumbSchema = {
       <p class="text-sm font-semibold text-amber-600">{category}</p>
       <h1 class="mt-2 text-3xl font-bold leading-snug text-ink md:text-4xl">{title}</h1>
       <p class="mt-4 text-lg leading-relaxed text-ink-soft">{description}</p>
+      {(hoursSummary || admissionSummary) && (
+        <div class="mt-5 grid gap-3 rounded-2xl border border-line bg-white p-4 text-sm sm:grid-cols-2">
+          {hoursSummary && <p><strong class="block text-ink">開放資訊</strong><span class="text-ink-soft">{hoursSummary}</span></p>}
+          {admissionSummary && <p><strong class="block text-ink">參觀費用</strong><span class="text-ink-soft">{admissionSummary}</span></p>}
+        </div>
+      )}
     </header>
 
-    <MapActions class="mt-6" />
+    {mapUrl && directionsUrl ? (
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-line bg-white px-5 py-3 text-center font-semibold text-ink">查看此景點地圖</a>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl bg-amber-cta px-5 py-3 text-center font-bold text-night">導航至此景點</a>
+      </div>
+    ) : <MapActions class="mt-6" />}
 
     {
       heroImage && (
@@ -192,9 +219,26 @@ const breadcrumbSchema = {
 
     <div class="mt-10 rounded-2xl bg-night p-6 text-center">
       <p class="font-bold text-white">準備出發了嗎？</p>
-      <MapActions class="mt-4 justify-center" />
+      {mapUrl && directionsUrl ? <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block rounded-xl bg-amber-cta px-5 py-3 font-bold text-night">導航至{title}</a> : <MapActions class="mt-4 justify-center" />}
     </div>
 
-    <SourcesSection class="mt-8" />
+    {mapQuery ? (
+      <section class="mt-8 rounded-2xl border border-line bg-white p-6" aria-label="本景點資料來源">
+        <h2 class="text-lg font-bold text-ink">本景點資料來源</h2>
+        <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+          本頁以景點各自的官方資料與地圖資訊整理，動態開放狀態及活動請以現場公告為準。
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4 text-sm font-semibold text-amber-600">
+          {officialSource && <a href={officialSource} target="_blank" rel="noopener noreferrer">景點官方參考資料 ↗</a>}
+          <a href={mapUrl} target="_blank" rel="noopener noreferrer">此景點 Google 地圖 ↗</a>
+        </div>
+      </section>
+    ) : canonical === "/nearby-attractions/" ? (
+      <nav class="mt-8 rounded-2xl border border-line bg-white p-5" aria-label="周邊景點資料來源">
+        <a href="/sources/" class="text-sm font-semibold text-amber-700 hover:underline">
+          查看資料來源、Google 地圖評價及圖片版權 →
+        </a>
+      </nav>
+    ) : <SourcesSection class="mt-8" />}
   </article>
 </BaseLayout>

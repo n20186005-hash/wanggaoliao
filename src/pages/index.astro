@@ -4,7 +4,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import QuickFacts from "../components/QuickFacts.astro";
 import ReviewsSection from "../components/ReviewsSection.astro";
-import SourcesSection from "../components/SourcesSection.astro";
 import ViewpointComparison from "../components/ViewpointComparison.astro";
 import LazyGoogleMap from "../components/LazyGoogleMap.astro";
 import RouteCard from "../components/RouteCard.astro";
@@ -152,11 +151,11 @@ const historyPoints = [
 ---
 
 <BaseLayout
-  title="望高寮夜景公園｜台中夜景最佳時間、停車、交通與即時影像"
-  description="想去望高寮看台中夜景？整理望高寮夜景公園最佳觀賞時間、停車位置、Google 地圖導航、公車交通與 4K 即時影像，出發前先看完整攻略。"
+  title="望高寮｜望高寮夜景公園交通、停車、即時影像與夜景攻略"
+  description="望高寮夜景公園在哪裡？臺中南屯望高寮免費賞夜景，查看 Google 地圖位置、停車與公車交通、4K 即時影像、夕陽時段及附近景點，出發前一次掌握。"
   canonical="/"
-  ogTitle="望高寮夜景公園｜台中夜景最佳時間、停車、交通與即時影像"
-  ogDescription="望高寮夜景公園（Wanggaoliao Night View Park）位於台中市南屯區，免費入園。本頁整理最佳觀景時間、停車方式、Google 地圖導航、公車交通與 4K 即時影像。"
+  ogTitle="望高寮｜望高寮夜景公園交通、停車、即時影像與夜景攻略"
+  ogDescription="望高寮夜景公園位於臺中市南屯區，免費賞景。快速查詢位置、停車、公車交通、即時影像和夕陽夜景攻略。"
   imageAlt="望高寮夜景公園的臺中市區夜景燈海"
   alternateLanguages={[
     { lang: "zh-Hant-TW", href: "/" },
@@ -488,7 +487,7 @@ const historyPoints = [
       </a>
     </div>
     <div class="mt-6 grid gap-6 md:grid-cols-2">
-      <a href="/nearby-attractions/" class="group block">
+      <a href="/attractions/rainbow-village/" class="group block">
         <Image
           src={rainbowImage}
           alt={`彩虹眷村 near ${place.name}`}
@@ -504,9 +503,11 @@ const historyPoints = [
       <div class="rounded-2xl border border-line bg-white p-6">
         <h3 class="text-lg font-bold text-ink">周邊順遊建議</h3>
         <ul class="mt-4 space-y-3 text-sm text-ink">
-          <li>🚉 <strong>追分車站</strong>：百年木造車站，「追分成功」車票的起點。</li>
-          <li>🥾 <strong>知高圳步道</strong>：平緩水圳步道，適合傍晚散步再上望高寮。</li>
-          <li>🏛️ <strong>聚奎居</strong>：巴洛克式歷史建築，拍照散策好去處。</li>
+          <li>🚉 <a href="/attractions/zhuifen-station/" class="font-semibold text-amber-600 hover:underline">追分車站</a>：木造車站與「追分成功」鐵道故事。</li>
+          <li>🥾 <a href="/attractions/zhigao-trail/" class="font-semibold text-amber-600 hover:underline">知高圳步道</a>：平緩水圳步道，適合白天散步再上望高寮。</li>
+          <li>🏛️ <a href="/attractions/jukuiju/" class="font-semibold text-amber-600 hover:underline">聚奎居</a>：中西合璧歷史建築，參觀前請先確認預約。</li>
+          <li>🌊 <a href="/attractions/fazi-riverside/" class="font-semibold text-amber-600 hover:underline">筏子溪水岸廊道</a>：TAICHUNG 地標及河岸散步。</li>
+          <li>🚆 <a href="/attractions/chenggong-station/" class="font-semibold text-amber-600 hover:underline">成功車站</a>：與追分車站串連的鐵道文化路線。</li>
           <li>🍜 看完夜景想吃宵夜？<a href="/nearby-food/" class="font-semibold text-amber-600 hover:underline">附近美食與宵夜</a></li>
         </ul>
       </div>
@@ -560,8 +561,7 @@ const historyPoints = [
     <ScienceAndResponsibility />
   </section>
 
-  <!-- 資料來源與版權 -->
-  <section class="mx-auto max-w-6xl px-4 pb-24 md:pb-16">
-    <SourcesSection />
-  </section>
+  <div class="mx-auto max-w-6xl px-4 pb-24 text-right md:pb-16">
+    <a href="/sources/" class="text-sm font-semibold text-amber-700 hover:underline">查看資料來源與版權 →</a>
+  </div>
 </BaseLayout>

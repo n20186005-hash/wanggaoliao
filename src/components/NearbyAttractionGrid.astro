@@ -5,9 +5,25 @@ import rainbowVillage from "../assets/nearby/rainbow-village-courtyard-1.jpg";
 import zhuifenStation from "../assets/nearby/zhuifen-station-platform-1.jpg";
 import zhigaoTrail from "../assets/nearby/zhigao-trail-elevated-1.jpg";
 import jukuigu from "../assets/nearby/jukuigu-courtyard-1.jpg";
+import faziRiverside from "../assets/nearby/fazi-riverside-official.jpg";
+import chenggongStation from "../assets/nearby/chenggong-station-official.jpg";
+import blueRoad from "../assets/nearby/dadu-blue-road.jpg";
+import greatWallTrail from "../assets/nearby/dadu-great-wall-trail.jpg";
+import ruijingVillage from "../assets/nearby/ruijing-village.jpg";
+import ruijingTrail from "../assets/nearby/ruijing-trail.jpg";
+import huangxiAcademy from "../assets/nearby/huangxi-academy.jpg";
+import wanxingTemple from "../assets/nearby/dadu-wanxing-temple.jpg";
+import nanliaoTrail from "../assets/nearby/zhukeng-nanliao-trail.png";
+import hunterPark from "../assets/nearby/hunter-memorial-park.jpg";
+import luceChapel from "../assets/nearby/luce-chapel.jpg";
+import artStreet from "../assets/nearby/tunghai-art-street.jpg";
+
+interface Props { lang?: "zh" | "en"; }
+const { lang = "zh" } = Astro.props;
 
 interface NearbySpot {
   name: string;
+  href?: string;
   driveTime: string;
   stayTime: string;
   bestFor: string;
@@ -20,6 +36,7 @@ interface NearbySpot {
 const spots: NearbySpot[] = [
   {
     name: "彩虹眷村",
+    href: "/attractions/rainbow-village/",
     driveTime: "約 10–15 分鐘",
     stayTime: "30–60 分鐘",
     bestFor: "拍照、親子、第一次到訪",
@@ -30,6 +47,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "知高圳步道",
+    href: "/attractions/zhigao-trail/",
     driveTime: "約 10–15 分鐘",
     stayTime: "60–90 分鐘",
     bestFor: "散步、親子、自然景觀",
@@ -40,6 +58,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "追分車站",
+    href: "/attractions/zhuifen-station/",
     driveTime: "約 15–20 分鐘",
     stayTime: "30–45 分鐘",
     bestFor: "鐵道、老建築、紀念車票",
@@ -50,6 +69,7 @@ const spots: NearbySpot[] = [
   },
   {
     name: "聚奎居",
+    href: "/attractions/jukuiju/",
     driveTime: "約 15–20 分鐘",
     stayTime: "45–75 分鐘",
     bestFor: "古蹟、建築、文化旅行",
@@ -60,21 +80,167 @@ const spots: NearbySpot[] = [
   },
   {
     name: "筏子溪門戶迎賓水岸廊道",
+    href: "/attractions/fazi-riverside/",
     driveTime: "約 10–15 分鐘",
     stayTime: "30–60 分鐘",
     bestFor: "輕鬆散步、地標合照",
     description: "沿筏子溪左岸設置步道與 TAICHUNG 地標，適合不想爬坡、只想在上山前簡單走走的人。",
     mapQuery: "筏子溪門戶迎賓水岸廊道",
+    image: faziRiverside,
+    imageAlt: "筏子溪水岸 TAICHUNG 大字地標與階梯",
+  },
+  {
+    name: "成功車站",
+    href: "/attractions/chenggong-station/",
+    driveTime: "依路線與車流而定",
+    stayTime: "20–45 分鐘",
+    bestFor: "鐵道文化、站名故事",
+    description: "可串連追分車站，認識『追分成功』站名文化；仍是營運中的車站，留意站區安全與票務規則。",
+    mapQuery: "成功車站 臺中市烏日區中山路三段550號",
+    image: chenggongStation,
+    imageAlt: "成功車站站房入口與列車造型招牌",
   },
   {
     name: "大肚藍色公路",
+    href: "/attractions/dadu-blue-road/",
     driveTime: "依進入路段而定",
     stayTime: "彈性安排",
     bestFor: "自駕、夜景延伸路線",
     description: "它是一段山腰道路而非單一景點，適合自駕或騎車下山後順行；彎道請減速，不要臨停拍照。",
     mapQuery: "大肚藍色公路",
+    image: blueRoad,
+    imageAlt: "大肚藍色公路夜間路燈與道路實景",
+  },
+  {
+    name: "萬里長城登山步道",
+    href: "/attractions/dadu-great-wall-trail/",
+    driveTime: "依入口路況而定",
+    stayTime: "60–120 分鐘",
+    bestFor: "登山、丘陵風光、晨間健行",
+    description: "沿大肚台地起伏的丘陵步道欣賞海線視野；部分路段曾公告受損，出發前務必核對最新通行資訊。",
+    mapQuery: "大肚山萬里長城步道入口 臺中市大肚區",
+    image: greatWallTrail,
+    imageAlt: "萬里長城登山步道林間石階",
+  },
+  {
+    name: "大肚瑞井里與古井",
+    href: "/attractions/ruijing-village/",
+    driveTime: "依山區道路而定",
+    stayTime: "40–80 分鐘",
+    bestFor: "古井、農村聚落、人文散步",
+    description: "走進瑞井社區，認識台地居民的用水歷史、老屋與聚落紋理；請保持巷道安靜。",
+    mapQuery: "大肚瑞井古井 臺中市大肚區瑞井里",
+    image: ruijingVillage,
+    imageAlt: "瑞井古井木造亭棚與井體",
+  },
+  {
+    name: "大肚瑞井登山步道",
+    href: "/attractions/ruijing-trail/",
+    driveTime: "依登山口而定",
+    stayTime: "60–120 分鐘",
+    bestFor: "自然觀察、森林步道",
+    description: "沿大肚台地林間山徑觀察紅土丘陵與在地植物，可與瑞井社區古井安排同日走訪。",
+    mapQuery: "大肚瑞井登山步道 臺中市大肚區",
+    image: ruijingTrail,
+    imageAlt: "大肚瑞井登山步道林間步行路線",
+  },
+  {
+    name: "磺溪書院",
+    href: "/attractions/huangxi-academy/",
+    driveTime: "依山下路線而定",
+    stayTime: "30–60 分鐘",
+    bestFor: "清代建築、文教歷史、磚雕",
+    description: "清光緒年間興建的大肚文教地標，觀察磚雕及傳統書院構造，與戶外觀景行程形成對比。",
+    mapQuery: "磺溪書院 臺中市大肚區文昌一街10號",
+    image: huangxiAcademy,
+    imageAlt: "磺溪書院庭院建築",
+  },
+  {
+    name: "大肚萬興宮",
+    href: "/attractions/dadu-wanxing-temple/",
+    driveTime: "依道路交通而定",
+    stayTime: "30–60 分鐘",
+    bestFor: "媽祖信仰、廟宇工藝、地方文化",
+    description: "大肚頂街媽祖廟，觀察廟埕、屋脊裝飾與在地祭典文化；參拜時尊重禮儀。",
+    mapQuery: "大肚萬興宮 臺中市大肚區榮華街154號",
+    image: wanxingTemple,
+    imageAlt: "大肚萬興宮廟內傳統裝飾",
+  },
+  {
+    name: "竹坑南寮登山步道",
+    href: "/attractions/zhukeng-nanliao-trail/",
+    driveTime: "依登山口而定",
+    stayTime: "90–150 分鐘",
+    bestFor: "健行、林蔭步道、丘陵展望",
+    description: "龍井區 A、B、C 多條步道串連丘陵，登高可遠眺臺中港與大肚溪出海口。",
+    mapQuery: "竹坑南寮登山步道 臺中市龍井區中沙路南寮巷70號",
+    image: nanliaoTrail,
+    imageAlt: "竹坑南寮登山古道入口導覽牌",
+  },
+  {
+    name: "亨德博士紀念公園",
+    href: "/attractions/hunter-memorial-park/",
+    driveTime: "依山區道路而定",
+    stayTime: "30–60 分鐘",
+    bestFor: "地方水資源史、人物紀念、親子散步",
+    description: "紀念協助大肚山居民改善自來水供應的亨德博士，了解台地聚落的用水歷史。",
+    mapQuery: "亨德博士紀念公園 臺中市龍井區中沙路南寮巷70號",
+    image: hunterPark,
+    imageAlt: "亨德博士紀念公園入口紀念石碑",
+  },
+  {
+    name: "路思義教堂",
+    href: "/attractions/luce-chapel/",
+    driveTime: "依校園交通而定",
+    stayTime: "45–90 分鐘",
+    bestFor: "現代建築、校園綠地、攝影",
+    description: "東海大學代表性曲面建築，由貝聿銘與陳其寬共同設計；參觀請遵守校園規定。",
+    mapQuery: "路思義教堂 東海大學 臺中市西屯區臺灣大道四段1727號",
+    image: luceChapel,
+    imageAlt: "路思義教堂曲面屋頂與草坪",
+  },
+  {
+    name: "東海藝術街商圈",
+    href: "/attractions/tunghai-art-street/",
+    driveTime: "依交通而定",
+    stayTime: "60–120 分鐘",
+    bestFor: "街區散步、藝術小店、咖啡",
+    description: "龍井國際街斜坡上的特色商圈，結合小店、藝文氣息與社區街景。",
+    mapQuery: "東海藝術街商圈 臺中市龍井區國際街",
+    image: artStreet,
+    imageAlt: "東海藝術街國際街沿坡商店街景",
   },
 ];
+
+const englishCards = [
+  ["Rainbow Village", "Painted lanes and colourful walls; best visited in daylight before heading up to Wanggaoliao.", "Photography, families"],
+  ["Zhigao Canal Trail", "A shaded canal-side walk, with optional longer branches that need extra time and energy.", "Walking, nature"],
+  ["Zhuifen Station", "A historic timber railway station linked to the popular Zhuifen–Chenggong name pairing.", "Rail heritage"],
+  ["Jukuiju Mansion", "A heritage residence combining Chinese courtyard forms and Western-style details; check booking rules.", "Architecture, history"],
+  ["Fazi River Waterfront", "A riverside promenade and the large TAICHUNG landmark for an easy photo stop.", "Riverside photos"],
+  ["Chenggong Station", "An active railway station associated with the Zhuifen–Chenggong story; observe rail safety.", "Railway culture"],
+  ["Dadu Blue Road", "A winding hillside road, not a single attraction; do not stop on bends for photographs.", "Scenic driving"],
+  ["Dadu Great Wall Hiking Trail", "Undulating plateau paths with possible coastal-plain views; check trail closure notices.", "Hiking, viewpoints"],
+  ["Ruijing Village and Old Wells", "Explore the village's traditional wells and water history while respecting residential lanes.", "Old wells, culture"],
+  ["Ruijing Hiking Trail", "Woodland routes through the red-earth plateau, suitable to pair with Ruijing Village.", "Nature, hiking"],
+  ["Huangxi Academy", "A Qing-era academy with traditional brick ornament and educational heritage.", "Historic buildings"],
+  ["Dadu Wanxing Temple", "A local Mazu temple with roof decoration, a temple forecourt and community traditions.", "Temple culture"],
+  ["Zhukeng–Nanliao Hiking Trail", "A network of A, B and C hillside paths near Longjing; choose the correct trailhead.", "Woodland hiking"],
+  ["Dr Hunter Memorial Park", "A community memorial to the professor who helped improve water access on the plateau.", "Local history"],
+  ["Luce Memorial Chapel", "Tunghai University's landmark curved-roof chapel; respect campus access rules.", "Modern architecture"],
+  ["Tunghai Art Street", "Independent shops and cafés along International Street in Longjing.", "Art shops, cafés"],
+] as const;
+
+const displaySpots = spots.map((spot, index) => lang === "en" ? {
+  ...spot,
+  name: englishCards[index][0],
+  description: englishCards[index][1],
+  bestFor: englishCards[index][2],
+  driveTime: "Check travel time",
+  stayTime: spot.stayTime.replace("分鐘", "min").replace("彈性安排", "Flexible"),
+  href: spot.href ? `/en${spot.href}` : undefined,
+  imageAlt: englishCards[index][0],
+} : spot);
 
 const mapUrl = (query: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -82,7 +248,7 @@ const mapUrl = (query: string) =>
 
 <div class="not-prose my-8 grid gap-4 sm:grid-cols-2">
   {
-    spots.map((spot) => (
+    displaySpots.map((spot) => (
       <article
         class:list={[
           "overflow-hidden rounded-2xl border border-line shadow-sm",
@@ -123,22 +289,30 @@ const mapUrl = (query: string) =>
             ]}
           >
             <div>
-              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>建議停留</dt>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>{lang === "en" ? "Suggested stay" : "建議停留"}</dt>
               <dd class="mt-1 font-semibold">{spot.stayTime}</dd>
             </div>
             <div>
-              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>適合</dt>
+              <dt class={spot.image ? "text-ink-soft" : "text-slate-400"}>{lang === "en" ? "Best for" : "適合"}</dt>
               <dd class="mt-1 font-semibold">{spot.bestFor}</dd>
             </div>
           </dl>
           <a
+            href={spot.href ?? mapUrl(spot.mapQuery)}
+            target={spot.href ? undefined : "_blank"}
+            rel={spot.href ? undefined : "noopener noreferrer"}
+            class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
+          >
+            {lang === "en" ? (spot.href ? "Read attraction guide →" : "View on Google Maps →") : (spot.href ? "閱讀完整景點指南 →" : "在 Google 地圖查看 →")}
+          </a>
+          {spot.href && <a
             href={mapUrl(spot.mapQuery)}
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-5 inline-flex font-semibold text-amber-600 hover:underline"
+            class="mt-3 ml-4 inline-flex text-sm font-semibold text-amber-600 hover:underline"
           >
-            在 Google 地圖查看 →
-          </a>
+            {lang === "en" ? "Location map ↗" : "景點地圖 ↗"}
+          </a>}
         </div>
       </article>
     ))

@@ -1,0 +1,9 @@
+---
+import LegalPage from "../components/LegalPage.astro";
+import type { LegalSlug } from "../data/legal";
+export function getStaticPaths() {
+  return ["privacy-policy", "terms-of-service", "cookie-settings"].map((policy) => ({ params: { policy } }));
+}
+const slug = Astro.params.policy as LegalSlug;
+---
+<LegalPage slug={slug} lang="zh" />

@@ -1,7 +1,6 @@
 ---
 import { footerNav, footerNavEn } from "../data/navigation";
 import { site } from "../data/site";
-import { imageRightsNotice, rating, reviewsSourceNote } from "../data/rating";
 
 interface Props {
   lang?: "zh" | "en";
@@ -33,53 +32,20 @@ const year = new Date().getFullYear();
       }
     </div>
 
-    {
-      lang === "en" ? (
-        <div class="mt-10 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400">
-          <p>
-            Wanggaoliao.com provides travel, transport and viewpoint information for Wanggaoliao.
-            Opening status, road conditions and navigation should be confirmed on Google Maps.
-          </p>
-          <p class="mt-2">
-            Rating: {rating.value} / 5 from {rating.reviewCountLabel} Google Maps reviews (synced {rating.syncedAtLabel}).
-          </p>
-          <p class="mt-2">
-            {imageRightsNotice}
-            <a href="/about/" class="underline hover:text-amber-cta">Image credits &amp; license</a>
-            <span aria-hidden="true"> · </span>
-            <a href="/about/#sources" class="underline hover:text-amber-cta">Sources</a>
-          </p>
-          <p class="mt-2">
-            Contact: <a href={`mailto:${site.email}`} class="underline hover:text-amber-cta">{site.email}</a>
-          </p>
-          <p class="mt-4 text-slate-400">© {year} Wanggaoliao.com · {site.brand} {site.brandEn}</p>
-        </div>
-      ) : (
-        <div class="mt-10 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400">
-          <p>
-            Wanggaoliao.com 提供望高寮旅遊、交通與觀景資訊。開放狀態、路況及導航請以 Google
-            地圖顯示為準。
-          </p>
-          <p class="mt-2">
-            評分與評價數（{rating.value} / 5，{rating.reviewCountLabel} 則）{reviewsSourceNote}，顯示時間
-            {rating.syncedAtLabel}。
-          </p>
-          <p class="mt-2">
-            {imageRightsNotice}
-            <a href="/about/" class="underline hover:text-amber-cta">圖片來源與授權</a>
-            <span aria-hidden="true"> · </span>
-            <a href="/about/#sources" class="underline hover:text-amber-cta">資料來源</a>
-          </p>
-          <p class="mt-2">
-            聯絡我們：<a href={`mailto:${site.email}`} class="underline hover:text-amber-cta"
-              >{site.email}</a
-            >
-          </p>
-          <p class="mt-4 text-slate-400">
-            © {year} Wanggaoliao.com · {site.brand} {site.brandEn}
-          </p>
-        </div>
-      )
-    }
+    <div class="mt-10 flex flex-col gap-5 border-t border-slate-700 pt-6 text-sm leading-relaxed text-slate-400 md:flex-row md:items-start md:justify-between">
+      <div>
+        <p>© {year} {lang === "en" ? "Wanggaoliao" : site.brand} · {lang === "en" ? "All rights reserved" : "版權所有"}</p>
+        <p class="mt-2 max-w-xl">
+          {lang === "en"
+            ? "This website is an independent travel information project. We are not affiliated with any government agency or official organization."
+            : "本網站是一個獨立的旅遊資訊項目。我們與任何政府機構或官方組織均無關聯。"}
+        </p>
+      </div>
+      <nav aria-label={lang === "en" ? "Legal policies" : "網站政策"} class="flex flex-wrap gap-x-5 gap-y-2 md:justify-end md:text-right">
+        <a class="hover:text-amber-cta" href={lang === "en" ? "/en/privacy-policy/" : "/privacy-policy/"}>{lang === "en" ? "Privacy Policy" : "隱私政策"}</a>
+        <a class="hover:text-amber-cta" href={lang === "en" ? "/en/terms-of-service/" : "/terms-of-service/"}>{lang === "en" ? "Terms of Service" : "服務條款"}</a>
+        <a class="hover:text-amber-cta" href={lang === "en" ? "/en/cookie-settings/" : "/cookie-settings/"}>{lang === "en" ? "Cookie Settings" : "Cookie 設定"}</a>
+      </nav>
+    </div>
   </div>
 </footer>

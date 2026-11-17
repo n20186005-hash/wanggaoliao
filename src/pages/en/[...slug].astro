@@ -1,0 +1,128 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { englishGuides } from "../../data/englishGuides";
+import { place } from "../../data/place";
+
+export async function getStaticPaths() {
+  const sourceGuides = await getCollection("guides");
+  const translations = await getCollection("englishFull");
+  return sourceGuides.filter(({ id }) => englishGuides[id]).map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide, translation: englishGuides[guide.id], full: translations.find((entry) => entry.id === guide.id) },
+  }));
+}
+
+const { guide, translation, full } = Astro.props;
+const FullContent = full ? (await render(full)).Content : null;
+const slug = guide.id;
+const attraction = slug.startsWith("attractions/");
+const related = guide.data.related.map((link: { href: string; label: string }) => ({
+  href: `/en${link.href}`,
+  label: englishGuides[link.href.replace(/^\//, "").replace(/\/$/, "")]?.title ?? "Related visitor guide",
+}));
+const mapQuery = guide.data.mapQuery ?? "望高寮夜景公園 臺中市南屯區";
+const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`;
+const manager = slug.includes("luce-chapel") ? "Tunghai University" :
+  slug.includes("station") ? "Taiwan Railways" :
+  slug.includes("temple") ? "the temple's local management and religious community" :
+  slug.includes("art-street") ? "individual businesses and the local community" :
+  "the relevant local authority or site operator";
+const description = `${translation.intro} Practical advice on visiting, access, photography and nearby Taichung attractions.`;
+---
+
+<BaseLayout
+  title={`${translation.title} | Taichung Visitor Guide`}
+  description={description}
+  canonical={`/en/${slug}/`}
+  language="en"
+  ogLocale="en_US"
+  ogType="article"
+  alternateLanguages={[
+    { lang: "en", href: `/en/${slug}/` },
+    { lang: "zh-Hant-TW", href: `/${slug}/` },
+    { lang: "x-default", href: `/${slug}/` },
+  ]}
+  mapUrl={mapUrl}
+  directionsUrl={directionsUrl}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org", "@type": "Article",
+      headline: translation.title, description, inLanguage: "en",
+      mainEntityOfPage: `https://wanggaoliao.com/en/${slug}/`,
+      about: { "@type": "TouristAttraction", name: translation.title, hasMap: mapUrl },
+    })} />
+  </Fragment>
+
+  <article class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
+    <nav class="text-sm text-ink-soft" aria-label="Breadcrumbs"><a class="hover:underline" href="/en/">English home</a> / <span>{translation.title}</span></nav>
+    <header class="mt-6">
+      <p class="text-sm font-semibold text-amber-600">{attraction ? "Nearby attraction" : "Visitor guide"}</p>
+      <h1 class="mt-2 text-3xl font-bold leading-tight text-ink md:text-4xl">{translation.title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-ink-soft">{translation.intro}</p>
+      <div class="mt-5 flex flex-wrap gap-3 text-sm">
+        {guide.data.hoursSummary && <span class="rounded-xl border border-line bg-white px-4 py-3"><strong>Access:</strong> Check current site information</span>}
+        {guide.data.admissionSummary && <span class="rounded-xl border border-line bg-white px-4 py-3"><strong>Admission:</strong> Check current visitor rules</span>}
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl border border-line bg-white px-5 py-3 font-semibold text-ink">View this place on Google Maps</a>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="rounded-xl bg-amber-cta px-5 py-3 font-bold text-night">Get directions</a>
+      </div>
+    </header>
+
+    {guide.data.heroImage && <figure class="mt-8"><Image src={guide.data.heroImage} alt={translation.title} widths={[480, 768, 1200]} sizes="(max-width: 768px) 100vw, 768px" class="w-full rounded-2xl border border-line" /><figcaption class="mt-2 text-xs text-ink-soft">Location photograph. Credit: see the source and image information in the Chinese-language guide.</figcaption></figure>}
+
+    {FullContent ? <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink prose-a:text-amber-600"><FullContent /></div> : <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink prose-a:text-amber-600">
+      <h2>Explore {translation.title}</h2>
+      <p>{translation.intro}</p>
+      <h3>Visitor highlights</h3>
+      <ul>{translation.highlights.map((item: string) => <li>{item}</li>)}</ul>
+
+      <section class="not-prose my-8 rounded-2xl border border-amber-200 bg-amber-50 p-6">
+        <h2 class="text-xl font-bold text-ink">About this place and its management</h2>
+        <p class="mt-3 leading-relaxed text-ink-soft">{attraction ? `${translation.title} is a distinct site in the wider Taichung and Dadu Plateau area. Site access, maintenance and visitor arrangements are overseen by ${manager}. Please follow the notices of the organisation responsible for the particular area.` : "Wanggaoliao's public visitor areas and related facilities fall under the relevant local public authorities. Follow current on-site notices for maintenance, public access and temporary closures."}</p>
+        <p class="mt-3 leading-relaxed text-ink-soft">{translation.context}</p>
+      </section>
+
+      <h2>Essential visitor information</h2>
+      <table><tbody>
+        <tr><th>Destination</th><td>{translation.title}</td></tr>
+        <tr><th>Area</th><td>Taichung City, Taiwan</td></tr>
+        <tr><th>Opening hours</th><td>{attraction ? "Check the relevant venue, campus, trail or operator's latest notice" : "Check current public access and any temporary restrictions"}</td></tr>
+        <tr><th>Tickets</th><td>{attraction ? "Confirm any applicable entry, booking or event conditions" : "Public viewing is generally free; confirm current rules"}</td></tr>
+        <tr><th>Navigation</th><td><a href={mapUrl} target="_blank" rel="noopener noreferrer">Dedicated Google Maps search</a></td></tr>
+      </tbody></table>
+
+      <h2>History, landscape and what makes it special</h2>
+      <p>{translation.context}</p>
+      <h2>Suggested visit route</h2>
+      <ol>
+        <li>Check the current opening, weather and transport conditions before setting out.</li>
+        <li>Arrive in daylight, identify the correct entrance and follow public access signs.</li>
+        <li>{translation.visit}</li>
+        <li>Continue to a linked nearby destination or return by your planned route.</li>
+      </ol>
+      <h2>Practical advice and visitor etiquette</h2>
+      <p>{translation.visit}</p>
+      <h2>Best photography viewpoints</h2>
+      <p>{translation.photography}</p>
+      <h2>Where to stay</h2>
+      <p>Choose accommodation in central Taichung for city transport connections, or in the Tunghai, Longjing or Nantun area if your next stop is on the plateau. Compare actual travel time, late check-in and return transport before booking.</p>
+      <h2>Visitor reviews and navigation</h2>
+      <p>Read recent visitor reviews and check the latest pin location directly on <a href={mapUrl} target="_blank" rel="noopener noreferrer">Google Maps for {translation.title}</a>. A live rating is not shown here because this page has not independently synchronised a current rating and review count.</p>
+      <h2>Frequently asked questions</h2>
+      <h3>Can I visit at any time?</h3>
+      <p>Do not assume unrestricted access. Check official or on-site opening notices for the specific location and any relevant facilities.</p>
+      <h3>Can I combine this stop with Wanggaoliao?</h3>
+      <p>Yes, if travel time and daylight permit. See the <a href="/en/nearby-attractions/">nearby attractions guide</a> and reserve the sunset or evening period for the night-view park.</p>
+      <h3>How can I find the correct entrance?</h3>
+      <p>Use the destination-specific <a href={directionsUrl} target="_blank" rel="noopener noreferrer">Google Maps directions</a> and verify any site access rules on arrival.</p>
+    </div>}
+
+    {related.length > 0 && <nav class="mt-10 rounded-2xl border border-line bg-white p-6" aria-label="Related English guides"><h2 class="text-lg font-bold text-ink">Continue exploring</h2><ul class="mt-3 grid gap-3 sm:grid-cols-2">{related.map((link: { href: string; label: string }) => <li><a class="font-semibold text-amber-600 hover:underline" href={link.href}>{link.label} →</a></li>)}</ul></nav>}
+    <section class="mt-10 rounded-2xl border border-line bg-white p-6"><h2 class="text-lg font-bold text-ink">Sources and original guide</h2><p class="mt-2 text-sm leading-relaxed text-ink-soft">Location-specific information is cross-referenced against the site's original Chinese guide. Operating conditions may change; check the venue or local authority before travelling.</p><div class="mt-4 flex flex-wrap gap-4 text-sm font-semibold text-amber-600">{guide.data.officialSource && <a href={guide.data.officialSource} target="_blank" rel="noopener noreferrer">Official reference ↗</a>}<a href={mapUrl} target="_blank" rel="noopener noreferrer">Location on Google Maps ↗</a><a href={`/${slug}/`}>繁體中文原文 →</a></div></section>
+  </article>
+</BaseLayout>

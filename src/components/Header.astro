@@ -5,9 +5,10 @@ import { site } from "../data/site";
 
 interface Props {
   lang?: "zh" | "en";
+  mapUrl?: string;
 }
 
-const { lang = "zh" } = Astro.props;
+const { lang = "zh", mapUrl = place.googleMapsUrl } = Astro.props;
 const nav = lang === "en" ? mainNavEn : mainNav;
 const openLabel = lang === "en" ? "Open in Google Maps" : "在 Google 地圖開啟";
 const menuLabel = lang === "en" ? "Menu" : "主選單";
@@ -37,7 +38,7 @@ const homeLabel = lang === "en" ? `${site.brand} home` : `${site.brand}首頁`;
         ))
       }
       <a
-        href={place.googleMapsUrl}
+        href={mapUrl}
         target="_blank"
         rel="noopener noreferrer"
         class="rounded-xl bg-amber-cta px-4 py-2 text-sm font-bold text-night transition hover:brightness-110"
@@ -70,7 +71,7 @@ const homeLabel = lang === "en" ? `${site.brand} home` : `${site.brand}首頁`;
           ))
         }
         <a
-          href={place.googleMapsUrl}
+          href={mapUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="mt-1 rounded-lg bg-amber-cta px-3 py-2 text-center text-sm font-bold text-night"

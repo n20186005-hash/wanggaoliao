@@ -13,12 +13,12 @@ export const mainNav: NavItem[] = [
 ];
 
 export const mainNavEn: NavItem[] = [
-  { label: "Night View", href: "/night-view/" },
-  { label: "Parking", href: "/parking/" },
-  { label: "Getting There", href: "/directions/" },
-  { label: "Photography", href: "/photography/" },
-  { label: "Seasons", href: "/seasons/" },
-  { label: "Nearby", href: "/nearby-attractions/" },
+  { label: "Night View", href: "/en/night-view/" },
+  { label: "Parking", href: "/en/parking/" },
+  { label: "Getting There", href: "/en/directions/" },
+  { label: "Photography", href: "/en/photography/" },
+  { label: "Seasons", href: "/en/seasons/" },
+  { label: "Nearby", href: "/en/nearby-attractions/" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
@@ -51,6 +51,12 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "台中半日行程", href: "/itineraries/half-day/" },
       { label: "攝影半日路線", href: "/itineraries/photography/" },
       { label: "附近景點", href: "/nearby-attractions/" },
+      { label: "彩虹村", href: "/attractions/rainbow-village/" },
+      { label: "知高圳步道", href: "/attractions/zhigao-trail/" },
+      { label: "追分車站", href: "/attractions/zhuifen-station/" },
+      { label: "聚奎居", href: "/attractions/jukuiju/" },
+      { label: "筏子溪水岸", href: "/attractions/fazi-riverside/" },
+      { label: "成功車站", href: "/attractions/chenggong-station/" },
       { label: "附近美食與宵夜", href: "/nearby-food/" },
     ],
   },
@@ -60,7 +66,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "常見問題", href: "/faq/" },
       { label: "歷史與責任", href: "/etiquette/" },
       { label: "關於本站", href: "/about/" },
-      { label: "隱私權政策", href: "/privacy/" },
+      { label: "資料來源與版權", href: "/sources/" },
       { label: "English Guide", href: "/en/" },
     ],
   },
@@ -105,8 +111,15 @@ export const footerNavEn: { title: string; items: NavItem[] }[] = [
       { label: "FAQ", href: "/faq/" },
       { label: "History & Responsibility", href: "/etiquette/" },
       { label: "About", href: "/about/" },
-      { label: "Privacy", href: "/privacy/" },
+      { label: "Sources & Credits", href: "/sources/" },
       { label: "中文指南", href: "/" },
     ],
   },
 ];
+
+// English navigation must never lead visitors back to Chinese-only guides.
+for (const group of footerNavEn) {
+  for (const item of group.items) {
+    if (item.href.startsWith("/") && item.href !== "/") item.href = `/en${item.href}`;
+  }
+}
