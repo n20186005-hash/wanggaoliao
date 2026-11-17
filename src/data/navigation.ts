@@ -13,12 +13,12 @@ export const mainNav: NavItem[] = [
 ];
 
 export const mainNavEn: NavItem[] = [
-  { label: "Night View", href: "/night-view/" },
-  { label: "Parking", href: "/parking/" },
-  { label: "Getting There", href: "/directions/" },
-  { label: "Photography", href: "/photography/" },
-  { label: "Seasons", href: "/seasons/" },
-  { label: "Nearby", href: "/nearby-attractions/" },
+  { label: "Night View", href: "/en/night-view/" },
+  { label: "Parking", href: "/en/parking/" },
+  { label: "Getting There", href: "/en/directions/" },
+  { label: "Photography", href: "/en/photography/" },
+  { label: "Seasons", href: "/en/seasons/" },
+  { label: "Nearby", href: "/en/nearby-attractions/" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
@@ -116,3 +116,10 @@ export const footerNavEn: { title: string; items: NavItem[] }[] = [
     ],
   },
 ];
+
+// English navigation must never lead visitors back to Chinese-only guides.
+for (const group of footerNavEn) {
+  for (const item of group.items) {
+    if (item.href.startsWith("/") && item.href !== "/") item.href = `/en${item.href}`;
+  }
+}

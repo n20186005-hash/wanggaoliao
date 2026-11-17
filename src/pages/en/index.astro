@@ -5,6 +5,9 @@ import { place } from "../../data/place";
 import { site } from "../../data/site";
 import { rating, reviewsSourceNote } from "../../data/rating";
 import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
+import { englishGuides } from "../../data/englishGuides";
+const attractionLinks = Object.entries(englishGuides).filter(([slug]) => slug.startsWith("attractions/"));
+const topicLinks = Object.entries(englishGuides).filter(([slug]) => !slug.startsWith("attractions/"));
 ---
 
 <BaseLayout
@@ -91,13 +94,12 @@ import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
     </p>
 
     <p class="mt-5 leading-relaxed text-ink">
-      Welcome to <strong>Wanggaoliao Night View Park</strong>, widely recognized as the
-      central <strong>Wanggaoliao</strong>. Located in the heart of
-      <strong>Taichung City</strong>, Nantun District, <strong>Taiwan</strong>, this
-      destination serves as a primary hub for travelers visiting the region. When
-      visiting Wanggaoliao Night View Park, visitors can easily explore surrounding
-      historical landmarks and points of interest, including
-      <strong>Rainbow Village</strong> and <strong>Zhuifen Station</strong>.
+      <strong>Wanggaoliao Night View Park</strong> lies on the Dadu Plateau in
+      Nantun District, <strong>Taichung City, Taiwan</strong>. The elevated site offers
+      a view across the city lights after dark. It works particularly well as the
+      final stop of a day exploring nearby landmarks such as
+      <a href="/en/attractions/rainbow-village/">Rainbow Village</a> and
+      <a href="/en/attractions/zhuifen-station/">Zhuifen Station</a>.
     </p>
 
     <p class="mt-3 text-sm text-ink-soft">
@@ -184,7 +186,7 @@ import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
         <li>No restaurants or convenience stores on site; eat before you go up.</li>
         <li>Paths and steps are dimly lit at night; use your phone light.</li>
         <li>
-          Nearby: Rainbow Village (10–15 min by car) makes a great afternoon stop
+          Nearby: <a href="/en/attractions/rainbow-village/">Rainbow Village</a> (10–15 min by car) makes a great afternoon stop
           before sunset here.
         </li>
       </ul>
@@ -196,6 +198,24 @@ import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
         <a href={place.liveCameraUrl} target="_blank" rel="noopener noreferrer">Taichung Tourism website</a>.
       </p>
     </div>
+
+    <section class="mt-12" id="english-guides">
+      <p class="text-sm font-bold uppercase tracking-wide text-amber-600">Plan your trip</p>
+      <h2 class="mt-2 text-2xl font-bold text-ink">Explore the complete English visitor guides</h2>
+      <p class="mt-3 leading-relaxed text-ink-soft">Find detailed advice about road access, parking, public transport, seasonal conditions, family trips and photography. Each topic opens a dedicated English-language page.</p>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        {topicLinks.map(([slug, content]) => <a href={`/en/${slug}/`} class="rounded-xl border border-line bg-white p-4 transition hover:border-amber-cta"><h3 class="font-bold text-ink">{content.title}</h3><p class="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-soft">{content.intro}</p><span class="mt-3 inline-block text-sm font-semibold text-amber-600">Read the guide →</span></a>)}
+      </div>
+    </section>
+
+    <section class="mt-12" id="nearby-english">
+      <p class="text-sm font-bold uppercase tracking-wide text-amber-600">Around the Dadu Plateau</p>
+      <h2 class="mt-2 text-2xl font-bold text-ink">16 nearby attractions with English guides</h2>
+      <p class="mt-3 leading-relaxed text-ink-soft">From historic railway stations and temples to wooded trails, neighbourhoods and modern architecture, choose a daylight stop before the evening skyline. Every location has its own map search and practical visitor information.</p>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        {attractionLinks.map(([slug, content]) => <a href={`/en/${slug}/`} class="rounded-xl border border-line bg-white p-4 transition hover:border-amber-cta"><h3 class="font-bold text-ink">{content.title}</h3><p class="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-soft">{content.intro}</p><span class="mt-3 inline-block text-sm font-semibold text-amber-600">Explore this place →</span></a>)}
+      </div>
+    </section>
 
     <section id="sources" class="mt-10 rounded-2xl border border-line bg-white p-6" lang="en">
       <h2 class="text-lg font-bold text-ink">Sources, ratings &amp; image credits</h2>
@@ -238,7 +258,7 @@ import heroImage from "../../assets/hero/wanggaoliao-skyline-night-1.jpg";
         <li>
           <strong class="text-ink">Images:</strong> all image property and copyright on
           this website belong to the original photographers.
-          <a href="/about/" class="font-semibold text-amber-600 hover:underline"
+        <a href="/en/about/" class="font-semibold text-amber-600 hover:underline"
             >Image credits ✓</a
           >
         </li>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const pages: Record<string, { title: string; description: string; sections: { heading: string; body: string }[] }> = {
+  about: {
+    title: "About the Wanggaoliao Visitor Guide",
+    description: "How this independent visitor guide researches Taichung travel information, photography and corrections.",
+    sections: [
+      { heading: "Our purpose", body: "This independently maintained travel-information project helps visitors plan responsible trips to Wanggaoliao Night View Park and the surrounding Dadu Plateau. It is not operated by a government, park authority or travel booking service." },
+      { heading: "Editorial research", body: "Guides bring together location-specific public information, tourism references, transport guidance and visitor planning. Opening times, trail conditions, transport schedules and venue access can change; confirm them with the relevant operator or on site." },
+      { heading: "Images and credits", body: "Photographs remain the property of their respective photographers. Where source details are known, credits are shown on the relevant attraction pages. Our English guides link to their corresponding original Chinese guides for additional context and references." },
+      { heading: "Corrections and contact", body: "If a location, map link or visitor detail is inaccurate, please contact us using the address shown in the footer. We welcome specific corrections with supporting sources." },
+    ],
+  },
+  faq: {
+    title: "Frequently Asked Questions about Wanggaoliao",
+    description: "Practical answers about access, admission, parking, sunset, transport and nearby attractions.",
+    sections: [
+      { heading: "Is Wanggaoliao Night View Park free?", body: "The public outdoor viewpoint is generally free to visit. Check current access and any temporary restrictions before travelling." },
+      { heading: "What is the best time for the night view?", body: "Arrive before sunset to find your bearings. Blue hour—shortly after sunset—offers a useful balance of sky colour and illuminated streets." },
+      { heading: "Is the sunset lookout the same place?", body: "No. The night-view park faces the Taichung skyline; the separate Wanggaoliao Lookout faces more toward the southwest horizon. Use the correct map pin for your goal." },
+      { heading: "Can I get there by bus?", body: "Some services reach the surrounding plateau, but stops may be a walk away and late-evening return services can be limited. Check the latest timetable and walking route." },
+      { heading: "What should families bring?", body: "Bring drinking water, a windproof layer, a charged phone and footwear suitable for steps or uneven surfaces. Keep children away from exposed edges." },
+      { heading: "Where should I go nearby?", body: "Rainbow Village, Zhigao Irrigation Trail, Zhuifen Station, Luce Chapel and other destinations have separate English guides in our Nearby Attractions section." },
+    ],
+  },
+  privacy: {
+    title: "Privacy Policy",
+    description: "Privacy information for visitors to Wanggaoliao.com.",
+    sections: [
+      { heading: "About this website", body: "This website publishes travel information and does not require visitors to create an account or submit booking details." },
+      { heading: "Analytics and technical data", body: "Website hosting and analytics services may process technical information such as IP address, browser type, page requests and approximate device information for security, performance and usage measurement. The site includes Google Analytics." },
+      { heading: "Third-party services", body: "Links to Google Maps, transport operators, tourism websites and other third-party resources lead to services governed by their own privacy practices. Opening an external link may transmit information to that provider." },
+      { heading: "Cookies", body: "Browser storage and cookies may be used by analytics or embedded third-party services. You can manage or block them through your browser's settings, although some site functions may be affected." },
+      { heading: "Contact and updates", body: "For questions or correction requests, contact the email address in this website's footer. This policy may be updated as the site's services change." },
+    ],
+  },
+};
+export function getStaticPaths() { return ["about", "faq", "privacy"].map((info) => ({ params: { info } })); }
+const page = pages[Astro.params.info!];
+---
+<BaseLayout title={`${page.title} | Wanggaoliao`} description={page.description} canonical={`/en/${Astro.params.info}/`} language="en" ogLocale="en_US" alternateLanguages={[{ lang: "en", href: `/en/${Astro.params.info}/` }, { lang: "zh-Hant-TW", href: `/${Astro.params.info}/` }]}>
+  <main class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
+    <a href="/en/" class="text-sm text-amber-600 hover:underline">← English home</a>
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">{page.title}</h1>
+    <p class="mt-4 text-lg text-ink-soft">{page.description}</p>
+    <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink">
+      {page.sections.map((section) => <section><h2>{section.heading}</h2><p>{section.body}</p></section>)}
+      <p>See also: <a href="/en/nearby-attractions/">Nearby attractions</a> and <a href="/en/directions/">Getting there</a>.</p>
+    </div>
+  </main>
+</BaseLayout>
