@@ -55,6 +55,8 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "知高圳步道", href: "/attractions/zhigao-trail/" },
       { label: "追分車站", href: "/attractions/zhuifen-station/" },
       { label: "聚奎居", href: "/attractions/jukuiju/" },
+      { label: "筏子溪水岸", href: "/attractions/fazi-riverside/" },
+      { label: "成功車站", href: "/attractions/chenggong-station/" },
       { label: "附近美食與宵夜", href: "/nearby-food/" },
     ],
   },

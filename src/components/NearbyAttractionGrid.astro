@@ -5,6 +5,8 @@ import rainbowVillage from "../assets/nearby/rainbow-village-courtyard-1.jpg";
 import zhuifenStation from "../assets/nearby/zhuifen-station-platform-1.jpg";
 import zhigaoTrail from "../assets/nearby/zhigao-trail-elevated-1.jpg";
 import jukuigu from "../assets/nearby/jukuigu-courtyard-1.jpg";
+import faziRiverside from "../assets/nearby/fazi-riverside-official.jpg";
+import chenggongStation from "../assets/nearby/chenggong-station-official.jpg";
 
 interface NearbySpot {
   name: string;
@@ -65,11 +67,25 @@ const spots: NearbySpot[] = [
   },
   {
     name: "筏子溪門戶迎賓水岸廊道",
+    href: "/attractions/fazi-riverside/",
     driveTime: "約 10–15 分鐘",
     stayTime: "30–60 分鐘",
     bestFor: "輕鬆散步、地標合照",
     description: "沿筏子溪左岸設置步道與 TAICHUNG 地標，適合不想爬坡、只想在上山前簡單走走的人。",
     mapQuery: "筏子溪門戶迎賓水岸廊道",
+    image: faziRiverside,
+    imageAlt: "筏子溪水岸 TAICHUNG 大字地標與階梯",
+  },
+  {
+    name: "成功車站",
+    href: "/attractions/chenggong-station/",
+    driveTime: "依路線與車流而定",
+    stayTime: "20–45 分鐘",
+    bestFor: "鐵道文化、站名故事",
+    description: "可串連追分車站，認識『追分成功』站名文化；仍是營運中的車站，留意站區安全與票務規則。",
+    mapQuery: "成功車站 臺中市烏日區中山路三段550號",
+    image: chenggongStation,
+    imageAlt: "成功車站站房入口與列車造型招牌",
   },
   {
     name: "大肚藍色公路",
