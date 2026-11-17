@@ -1,3 +1,0 @@
-# 兜底重定向：所有路径强制以 wangaoliao.com 根域服务（无 www 版本）
-# 注：HTTP→HTTPS 的强制重定向由 Cloudflare Pages 的「Always Use HTTPS」功能控制。
-https://www.wanggaoliao.com/*  https://wanggaoliao.com/:splat  301
