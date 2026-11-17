@@ -7,6 +7,16 @@ import zhigaoTrail from "../assets/nearby/zhigao-trail-elevated-1.jpg";
 import jukuigu from "../assets/nearby/jukuigu-courtyard-1.jpg";
 import faziRiverside from "../assets/nearby/fazi-riverside-official.jpg";
 import chenggongStation from "../assets/nearby/chenggong-station-official.jpg";
+import blueRoad from "../assets/nearby/dadu-blue-road.jpg";
+import greatWallTrail from "../assets/nearby/dadu-great-wall-trail.jpg";
+import ruijingVillage from "../assets/nearby/ruijing-village.jpg";
+import ruijingTrail from "../assets/nearby/ruijing-trail.jpg";
+import huangxiAcademy from "../assets/nearby/huangxi-academy.jpg";
+import wanxingTemple from "../assets/nearby/dadu-wanxing-temple.jpg";
+import nanliaoTrail from "../assets/nearby/zhukeng-nanliao-trail.png";
+import hunterPark from "../assets/nearby/hunter-memorial-park.jpg";
+import luceChapel from "../assets/nearby/luce-chapel.jpg";
+import artStreet from "../assets/nearby/tunghai-art-street.jpg";
 
 interface NearbySpot {
   name: string;
@@ -95,6 +105,8 @@ const spots: NearbySpot[] = [
     bestFor: "自駕、夜景延伸路線",
     description: "它是一段山腰道路而非單一景點，適合自駕或騎車下山後順行；彎道請減速，不要臨停拍照。",
     mapQuery: "大肚藍色公路",
+    image: blueRoad,
+    imageAlt: "大肚藍色公路夜間路燈與道路實景",
   },
   {
     name: "萬里長城登山步道",
@@ -104,6 +116,8 @@ const spots: NearbySpot[] = [
     bestFor: "登山、丘陵風光、晨間健行",
     description: "沿大肚台地起伏的丘陵步道欣賞海線視野；部分路段曾公告受損，出發前務必核對最新通行資訊。",
     mapQuery: "大肚萬里長城登山步道 臺中市大肚區",
+    image: greatWallTrail,
+    imageAlt: "萬里長城登山步道林間石階",
   },
   {
     name: "大肚瑞井里與古井",
@@ -113,6 +127,8 @@ const spots: NearbySpot[] = [
     bestFor: "古井、農村聚落、人文散步",
     description: "走進瑞井社區，認識台地居民的用水歷史、老屋與聚落紋理；請保持巷道安靜。",
     mapQuery: "大肚瑞井古井 臺中市大肚區瑞井里",
+    image: ruijingVillage,
+    imageAlt: "瑞井古井木造亭棚與井體",
   },
   {
     name: "大肚瑞井登山步道",
@@ -122,6 +138,8 @@ const spots: NearbySpot[] = [
     bestFor: "自然觀察、森林步道",
     description: "沿大肚台地林間山徑觀察紅土丘陵與在地植物，可與瑞井社區古井安排同日走訪。",
     mapQuery: "大肚瑞井登山步道 臺中市大肚區",
+    image: ruijingTrail,
+    imageAlt: "大肚瑞井登山步道林間步行路線",
   },
   {
     name: "磺溪書院",
@@ -131,6 +149,8 @@ const spots: NearbySpot[] = [
     bestFor: "清代建築、文教歷史、磚雕",
     description: "清光緒年間興建的大肚文教地標，觀察磚雕及傳統書院構造，與戶外觀景行程形成對比。",
     mapQuery: "磺溪書院 臺中市大肚區文昌一街10號",
+    image: huangxiAcademy,
+    imageAlt: "磺溪書院庭院建築",
   },
   {
     name: "大肚萬興宮",
@@ -140,6 +160,8 @@ const spots: NearbySpot[] = [
     bestFor: "媽祖信仰、廟宇工藝、地方文化",
     description: "大肚頂街媽祖廟，觀察廟埕、屋脊裝飾與在地祭典文化；參拜時尊重禮儀。",
     mapQuery: "大肚萬興宮 臺中市大肚區榮華街154號",
+    image: wanxingTemple,
+    imageAlt: "大肚萬興宮廟內傳統裝飾",
   },
   {
     name: "竹坑南寮登山步道",
@@ -149,6 +171,8 @@ const spots: NearbySpot[] = [
     bestFor: "健行、林蔭步道、丘陵展望",
     description: "龍井區 A、B、C 多條步道串連丘陵，登高可遠眺臺中港與大肚溪出海口。",
     mapQuery: "竹坑南寮登山步道 臺中市龍井區中沙路南寮巷70號",
+    image: nanliaoTrail,
+    imageAlt: "竹坑南寮登山古道入口導覽牌",
   },
   {
     name: "亨德博士紀念公園",
@@ -158,6 +182,8 @@ const spots: NearbySpot[] = [
     bestFor: "地方水資源史、人物紀念、親子散步",
     description: "紀念協助大肚山居民改善自來水供應的亨德博士，了解台地聚落的用水歷史。",
     mapQuery: "亨德博士紀念公園 臺中市龍井區中沙路南寮巷70號",
+    image: hunterPark,
+    imageAlt: "亨德博士紀念公園入口紀念石碑",
   },
   {
     name: "路思義教堂",
@@ -167,6 +193,8 @@ const spots: NearbySpot[] = [
     bestFor: "現代建築、校園綠地、攝影",
     description: "東海大學代表性曲面建築，由貝聿銘與陳其寬共同設計；參觀請遵守校園規定。",
     mapQuery: "路思義教堂 東海大學 臺中市西屯區臺灣大道四段1727號",
+    image: luceChapel,
+    imageAlt: "路思義教堂曲面屋頂與草坪",
   },
   {
     name: "東海藝術街商圈",
@@ -176,6 +204,8 @@ const spots: NearbySpot[] = [
     bestFor: "街區散步、藝術小店、咖啡",
     description: "龍井國際街斜坡上的特色商圈，結合小店、藝文氣息與社區街景。",
     mapQuery: "東海藝術街商圈 臺中市龍井區國際街",
+    image: artStreet,
+    imageAlt: "東海藝術街國際街沿坡商店街景",
   },
 ];
 
