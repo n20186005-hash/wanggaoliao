@@ -1,12 +1,17 @@
 ---
 import { place } from "../data/place";
+interface Props {
+  mapUrl?: string;
+  directionsUrl?: string;
+}
+const { mapUrl = place.googleMapsUrl, directionsUrl = place.directionsUrl } = Astro.props;
 ---
 
 <div
   class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-slate-700 bg-night/95 p-3 backdrop-blur md:hidden"
 >
   <a
-    href={place.googleMapsUrl}
+    href={mapUrl}
     target="_blank"
     rel="noopener noreferrer"
     class="flex-1 rounded-xl border border-slate-500 px-4 py-3 text-center text-sm font-semibold text-white"
@@ -14,7 +19,7 @@ import { place } from "../data/place";
     查看地圖
   </a>
   <a
-    href={place.directionsUrl}
+    href={directionsUrl}
     target="_blank"
     rel="noopener noreferrer"
     class="flex-1 rounded-xl bg-amber-cta px-4 py-3 text-center text-sm font-bold text-night"

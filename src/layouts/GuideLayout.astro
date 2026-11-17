@@ -133,6 +133,8 @@ const breadcrumbSchema = {
   ogType="article"
   noindex={noindex}
   alternateLanguages={defaultAlternateLanguages}
+  mapUrl={mapUrl}
+  directionsUrl={directionsUrl}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -210,6 +212,17 @@ const breadcrumbSchema = {
       {mapUrl && directionsUrl ? <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block rounded-xl bg-amber-cta px-5 py-3 font-bold text-night">導航至{title}</a> : <MapActions class="mt-4 justify-center" />}
     </div>
 
-    <SourcesSection class="mt-8" />
+    {mapQuery ? (
+      <section class="mt-8 rounded-2xl border border-line bg-white p-6" aria-label="本景點資料來源">
+        <h2 class="text-lg font-bold text-ink">本景點資料來源</h2>
+        <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+          本頁以景點各自的官方資料與地圖資訊整理，動態開放狀態及活動請以現場公告為準。
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4 text-sm font-semibold text-amber-600">
+          {officialSource && <a href={officialSource} target="_blank" rel="noopener noreferrer">景點官方參考資料 ↗</a>}
+          <a href={mapUrl} target="_blank" rel="noopener noreferrer">此景點 Google 地圖 ↗</a>
+        </div>
+      </section>
+    ) : <SourcesSection class="mt-8" />}
   </article>
 </BaseLayout>
