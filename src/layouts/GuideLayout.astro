@@ -233,6 +233,12 @@ const breadcrumbSchema = {
           <a href={mapUrl} target="_blank" rel="noopener noreferrer">此景點 Google 地圖 ↗</a>
         </div>
       </section>
+    ) : canonical === "/nearby-attractions/" ? (
+      <nav class="mt-8 rounded-2xl border border-line bg-white p-5" aria-label="周邊景點資料來源">
+        <a href="/sources/" class="text-sm font-semibold text-amber-700 hover:underline">
+          查看資料來源、Google 地圖評價及圖片版權 →
+        </a>
+      </nav>
     ) : <SourcesSection class="mt-8" />}
   </article>
 </BaseLayout>
