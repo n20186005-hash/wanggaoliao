@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { legalPages, type LegalLang, type LegalSlug } from "../data/legal";
+import { site } from "../data/site";
+
+interface Props { slug: LegalSlug; lang: LegalLang }
+const { slug, lang } = Astro.props;
+const page = legalPages[lang][slug];
+const prefix = lang === "en" ? "/en" : "";
+---
+
+<BaseLayout title={`${page.title}｜${site.brand}`} description={page.description} canonical={`${prefix}/${slug}/`} language={lang} ogLocale={lang === "en" ? "en_US" : "zh_TW"} alternateLanguages={[{ lang: "en", href: `/en/${slug}/` }, { lang: "zh-Hant-TW", href: `/${slug}/` }]} showMobileMapBar={false}>
+  <main class="mx-auto max-w-3xl px-4 py-10 pb-20" lang={lang === "en" ? "en" : "zh-Hant"}>
+    <a href={lang === "en" ? "/en/" : "/"} class="text-sm text-amber-600 hover:underline">{lang === "en" ? "← English home" : "← 返回首頁"}</a>
+    <h1 class="mt-6 text-3xl font-bold text-ink md:text-4xl">{page.title}</h1>
+    <p class="mt-3 text-ink-soft">{page.description}</p>
+    <p class="mt-2 text-sm text-ink-soft">{lang === "en" ? "Last updated: " : "最後更新："}{page.updated}</p>
+    <div class="prose prose-slate mt-8 max-w-none prose-headings:text-ink prose-a:text-amber-600">
+      {page.sections.map((section) => <section><h2>{section.heading}</h2>{section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}</section>)}
+      <p>{lang === "en" ? "Contact: " : "聯絡方式："}<a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </main>
+</BaseLayout>

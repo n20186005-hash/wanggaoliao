@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LegalPage from "../../components/LegalPage.astro";
+import { legalPages, type LegalSlug } from "../../data/legal";
 const pages: Record<string, { title: string; description: string; sections: { heading: string; body: string }[] }> = {
   about: {
     title: "About the Wanggaoliao Visitor Guide",
@@ -35,9 +37,11 @@ const pages: Record<string, { title: string; description: string; sections: { he
     ],
   },
 };
-export function getStaticPaths() { return ["about", "faq", "privacy"].map((info) => ({ params: { info } })); }
-const page = pages[Astro.params.info!];
+export function getStaticPaths() { return ["about", "faq", "privacy", "privacy-policy", "terms-of-service", "cookie-settings"].map((info) => ({ params: { info } })); }
+const isLegal = Astro.params.info! in legalPages.en;
+const page = pages[Astro.params.info!] ?? pages.about;
 ---
+{isLegal ? <LegalPage slug={Astro.params.info as LegalSlug} lang="en" /> :
 <BaseLayout title={`${page.title} | Wanggaoliao`} description={page.description} canonical={`/en/${Astro.params.info}/`} language="en" ogLocale="en_US" alternateLanguages={[{ lang: "en", href: `/en/${Astro.params.info}/` }, { lang: "zh-Hant-TW", href: `/${Astro.params.info}/` }]}>
   <main class="mx-auto max-w-3xl px-4 py-10 pb-28 md:pb-16" lang="en">
     <a href="/en/" class="text-sm text-amber-600 hover:underline">← English home</a>
@@ -48,4 +52,4 @@ const page = pages[Astro.params.info!];
       <p>See also: <a href="/en/nearby-attractions/">Nearby attractions</a> and <a href="/en/directions/">Getting there</a>.</p>
     </div>
   </main>
-</BaseLayout>
+</BaseLayout>}
